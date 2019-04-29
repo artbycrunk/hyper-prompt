@@ -6,7 +6,7 @@ class BasicSegment(object):
     def __init__(self, hyper_prompt, seg_conf):
         self.hyper_prompt = hyper_prompt
         self.seg_conf = seg_conf  # type: dict
-        self.type = self.seg_conf["type"]
+        self.type = self.seg_conf.get("type")
         self.activated = False
 
     def start(self):
@@ -39,7 +39,7 @@ class BasicSegment(object):
         self.fg, self.bg = fg, bg
 
         self.content = content
-        if self.hyper_prompt.args.shell == "bash" and sanitize:
+        if self.hyper_prompt.shell == "bash" and sanitize:
             content = re.sub(r"([`$])", r"\\\1", content)
 
         self.separator = self.hyper_prompt.separator

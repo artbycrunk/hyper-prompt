@@ -32,7 +32,7 @@ class Prompt(object):
         self.config = config
         self.theme = theme
         self.cwd = get_valid_cwd()
-        self.color_template = defaults.TEMPLATES.get(args.shell)
+        self.color_template = defaults.TEMPLATES.get(self.shell)
 
         self.reset = self.color_template % '[0m'
 
@@ -43,6 +43,12 @@ class Prompt(object):
         self.separator = mode_symbols.get('separator')
         self.separator_thin = mode_symbols.get('separator_thin')
         self.segments = list()
+
+    @property
+    def shell(self):
+        if hasattr(self.args, "shell"):
+            return self.args.shell
+        return "bash"
 
     def segment_conf(self, seg_name, key, default=None):
         return self.config.get(seg_name, {}).get(key, default)
