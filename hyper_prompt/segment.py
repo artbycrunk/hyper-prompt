@@ -9,6 +9,10 @@ class BasicSegment(object):
         self.type = self.seg_conf.get("type")
         self.activated = False
 
+    @property
+    def theme(self):
+        return self.hyper_prompt.theme
+
     def start(self):
         self.activate()
 
@@ -21,7 +25,7 @@ class BasicSegment(object):
     def color(self, prefix, code):
         if code is None:
             return ''
-        elif code == self.hyper_prompt.theme.RESET:
+        elif code == self.theme.RESET:
             return self.hyper_prompt.reset
         else:
             return self.hyper_prompt.color_template % (
