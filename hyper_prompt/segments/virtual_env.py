@@ -12,6 +12,6 @@ class Segment(BasicSegment):
         if not env:
             return
         env_name = os.path.basename(env)
-        bg = self.hyper_prompt.theme.VIRTUAL_ENV_BG
-        fg = self.hyper_prompt.theme.VIRTUAL_ENV_FG
+        bg = self.theme.get("VIRTUAL_ENV_BG")
+        fg = self.theme.get("VIRTUAL_ENV_FG")
         self.append(" %s " % env_name, fg, bg)

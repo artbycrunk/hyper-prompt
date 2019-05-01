@@ -5,15 +5,15 @@ import getpass
 
 class Segment(BasicSegment):
     def activate(self):
+        user_prompt = " %s " % os.getenv("USER")
         if self.hyper_prompt.shell == "bash":
             user_prompt = r" \u "
         elif self.hyper_prompt.shell == "zsh":
             user_prompt = " %n "
-        else:
-            user_prompt = " %s " % os.getenv("USER")
 
+        bgcolor = self.theme.get("USERNAME_BG")
+        fgcolor = self.theme.get("USERNAME_FG")
         if getpass.getuser() == "root":
-            bgcolor = self.hyper_prompt.theme.USERNAME_ROOT_BG
-        else:
-            bgcolor = self.hyper_prompt.theme.USERNAME_BG
-        self.append(user_prompt, self.hyper_prompt.theme.USERNAME_FG, bgcolor)
+            bgcolor = self.theme.get("USERNAME_ROOT_BG")
+
+        self.append(user_prompt, fgcolor, bgcolor)
