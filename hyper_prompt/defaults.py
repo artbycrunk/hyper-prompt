@@ -12,11 +12,29 @@ CONFIG_LOCATIONS = [
     "~/.hyper_prompt.json",
     "~/.config/hyper_prompt/config.json"]
 
-TEMPLATES = {
-    'bash': r'\[\e%s\]',
-    'tcsh': r'%%{\e%s%%}',
-    'zsh': '%%{%s%%}',
-    'bare': '%s',
+SHELLS = {
+    'bash': {
+        'root': ' \\$ ',
+        'hostname': r' \h ',
+        'time': ' \\t ',
+        'username': r' \u ',
+        'color': r'\[\e%s\]'
+    },
+    'tcsh': {
+        'root': ' %# ',
+        'color': r'%%{\e%s%%}',
+    },
+    'zsh': {
+        'root': ' %# ',
+        'hostname': ' %m ',
+        'time': ' %* ',
+        'username': ' %n ',
+        'color': '%%{%s%%}'
+    },
+    'bare': {
+        'root': ' $ ',
+        'color': '%s'
+    }
 }
 
 SYMBOLS = {
