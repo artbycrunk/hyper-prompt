@@ -34,6 +34,7 @@ class Prompt(object):
         self.cwd = get_valid_cwd()
         self.shell_vars = defaults.SHELLS.get(self.shell, {})
         self.color_ = self.shell_vars.get("color")
+        self._content = defaults.CONTENT
 
         self.reset = self.color_ % '[0m'
 

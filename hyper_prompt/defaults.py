@@ -7,6 +7,8 @@ CONFIG = {
     ]
 }
 
+CONTENT = " %s "
+
 CONFIG_LOCATIONS = [
     "hyper_prompt.json",
     "~/.hyper_prompt.json",
