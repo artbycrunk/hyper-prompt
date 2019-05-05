@@ -1,9 +1,11 @@
 import re
 import os
+import threading
 
 
-class BasicSegment(object):
+class BasicSegment(threading.Thread):
     def __init__(self, hyper_prompt, seg_conf):
+        super(BasicSegment, self).__init__()
         self.hyper_prompt = hyper_prompt
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
@@ -14,11 +16,11 @@ class BasicSegment(object):
     def theme(self):
         return self.hyper_prompt.theme
 
-    def start(self):
+    def run(self):
         self.activate()
 
     def activate(self):
-        pass
+        raise NotImplementedError
 
     def getenv(self, key):
         return os.getenv(key)
