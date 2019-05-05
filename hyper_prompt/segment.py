@@ -2,6 +2,8 @@ import re
 import os
 import threading
 
+from . import defaults
+
 
 class BasicSegment(threading.Thread):
     def __init__(self, hyper_prompt, seg_conf):
@@ -9,6 +11,13 @@ class BasicSegment(threading.Thread):
         self.hyper_prompt = hyper_prompt
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
+
+        # Allow for per segment symbol override
+        self.symbols = self.hyper_prompt.symbols
+        symbols = self.seg_conf.get("symbols", None)
+        if symbols:
+            self.symbols = defaults.SYMBOLS.get(symbols)
+
         self.activated = False
         self.content = None
         self.sub_segments = list()
@@ -50,7 +59,7 @@ class BasicSegment(threading.Thread):
         if self.hyper_prompt.shell == "bash" and sanitize:
             content = re.sub(r"([`$])", r"\\\1", content)
 
-        self.separator = self.hyper_prompt.symbols.get('separator')
+        self.separator = self.symbols.get('separator')
         self._separator_fg = bg
         if separator is not None:
             self.separator = separator

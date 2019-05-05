@@ -38,7 +38,7 @@ class Prompt(object):
 
         self.reset = self.color_ % '[0m'
 
-        mode = config.get("mode", "patched")
+        mode = config.get("symbols", "patched")
         self.symbols = defaults.SYMBOLS.get(mode, {})
         self.segments = list()
 
