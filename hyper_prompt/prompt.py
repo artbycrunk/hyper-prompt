@@ -68,10 +68,11 @@ class Prompt(object):
             if idx < len(self.segments) - 1:
                 next_segment = self.segments[idx + 1]
             draw = segment.draw(next_segment=next_segment)
-            try:
-                if isinstance(draw, unicode):
-                    items.append(draw.encode('utf8'))
-            except Exception:
-                items.append(draw)
+            items.append(draw)
+        concat_prompt = (''.join(items) + self.reset) + ' '
 
-        return (''.join(items) + self.reset) + ' '
+        try:
+            if isinstance(concat_prompt, unicode):
+                return concat_prompt.encode('utf8')
+        except Exception:
+            return concat_prompt
