@@ -4,7 +4,7 @@ import sys
 from . import defaults, helpers
 
 
-def get_valid_cwd() -> str:
+def get_valid_cwd():
     try:
         if os.name == "nt":
             cwd = os.getcwd()
@@ -50,6 +50,15 @@ class Prompt(object):
 
     def segment_conf(self, seg_name, key, default=None):
         return self.config.get(seg_name, {}).get(key, default)
+
+    def add_segments(self, segment_threads):
+        for segment in segment_threads:
+            if segment.activated:
+                self.segments.append(segment)
+                if segment.sub_segments:
+                    for sub_segment in segment.sub_segments:
+                        if sub_segment.activated:
+                            self.segments.append(sub_segment)
 
     def draw(self):
         items = list()

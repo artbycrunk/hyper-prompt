@@ -8,6 +8,7 @@ class BasicSegment(object):
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
         self.activated = False
+        self.sub_segments = list()
 
     @property
     def theme(self):

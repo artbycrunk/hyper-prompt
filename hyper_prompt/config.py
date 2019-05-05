@@ -9,6 +9,7 @@ def find():
         fullpath = os.path.expanduser(location)
         if os.path.exists(fullpath):
             return fullpath
+    return None
 
 
 def get():

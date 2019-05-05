@@ -27,6 +27,7 @@ def main():
 
     hyper_prompt = prompt.Prompt(args, valid_config, theme)
 
+    segment_threads = list()
     for seg_conf in valid_config.get("segments", []):
         seg_conf = helpers.ensure_dict(seg_conf)
         seg_module = seg_conf.get("module")
@@ -34,8 +35,10 @@ def main():
 
         segment = _segment(hyper_prompt, seg_conf)
         segment.start()
-        if segment.activated:
-            hyper_prompt.segments.append(segment)
+        segment.join()
+        segment_threads.append(segment)
+
+    hyper_prompt.add_segments(segment_threads)
 
     sys.stdout.write(hyper_prompt.draw())
     return 0
