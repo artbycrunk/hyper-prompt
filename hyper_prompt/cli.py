@@ -10,6 +10,8 @@ def parser():
     arg_parser.add_argument('--shell', action='store', default='bash',
                             help='Set this to your shell type',
                             choices=['bash', 'tcsh', 'zsh', 'bare'])
+    arg_parser.add_argument('prev_error', nargs='?', type=int, default=0,
+                            help='Error code returned by the last command')
     return arg_parser.parse_args()
 
 

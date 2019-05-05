@@ -10,6 +10,7 @@ class BasicSegment(threading.Thread):
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
         self.activated = False
+        self.content = None
         self.sub_segments = list()
 
     @property
@@ -31,7 +32,7 @@ class BasicSegment(threading.Thread):
         elif code == self.theme.RESET:
             return self.hyper_prompt.reset
         else:
-            return self.hyper_prompt.color_template % (
+            return self.hyper_prompt.color_ % (
                 '[%s;5;%sm' % (prefix, code))
 
     def fgcolor(self, code):
@@ -49,7 +50,7 @@ class BasicSegment(threading.Thread):
         if self.hyper_prompt.shell == "bash" and sanitize:
             content = re.sub(r"([`$])", r"\\\1", content)
 
-        self.separator = self.hyper_prompt.separator
+        self.separator = self.hyper_prompt.symbols.get('separator')
         self._separator_fg = bg
         if separator is not None:
             self.separator = separator
