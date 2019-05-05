@@ -63,8 +63,15 @@ class Prompt(object):
     def draw(self):
         items = list()
         for idx in range(len(self.segments)):
+            segment = self.segments[idx]
             next_segment = None
             if idx < len(self.segments) - 1:
                 next_segment = self.segments[idx + 1]
-            items.append(self.segments[idx].draw(next_segment=next_segment))
+            draw = segment.draw(next_segment=next_segment)
+            try:
+                if isinstance(draw, unicode):
+                    items.append(draw.encode('utf8'))
+            except Exception:
+                items.append(draw)
+
         return (''.join(items) + self.reset) + ' '
