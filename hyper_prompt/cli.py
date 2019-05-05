@@ -2,6 +2,7 @@
 import argparse
 import signal
 import sys
+import os
 
 from . import config, helpers, prompt
 
