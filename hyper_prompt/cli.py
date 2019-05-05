@@ -1,5 +1,6 @@
 
 import argparse
+import signal
 import sys
 
 from . import config, helpers, prompt
@@ -17,6 +18,7 @@ def parser():
 
 def main():
     args = parser()
+    s = signal.signal(signal.SIGINT, signal.SIG_IGN)
     valid_config = config.get()
 
     _importer = helpers.Importer()
@@ -43,4 +45,5 @@ def main():
     hyper_prompt.add_segments(segment_threads)
 
     sys.stdout.write(hyper_prompt.draw())
+    signal.signal(signal.SIGINT, s)
     return 0
