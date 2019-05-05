@@ -1,19 +1,18 @@
 from ..segment import BasicSegment
-import os
 import getpass
 
 
 class Segment(BasicSegment):
-    def activate(self):
-        user_prompt = " %s " % os.getenv("USER")
-        if self.hyper_prompt.shell == "bash":
-            user_prompt = r" \u "
-        elif self.hyper_prompt.shell == "zsh":
-            user_prompt = " %n "
+    def is_root(self):
+        return getpass.getuser() == "root"
 
-        bgcolor = self.theme.get("USERNAME_BG")
-        fgcolor = self.theme.get("USERNAME_FG")
-        if getpass.getuser() == "root":
-            bgcolor = self.theme.get("USERNAME_ROOT_BG")
+    def activate(self):
+        user_prompt = self.hyper_prompt.shell_vars.get(
+            "username", " %s " % self.getenv("USER"))
+
+        fgcolor = self.theme.get("USERNAME_FG", 250)
+        bgcolor = (self.theme.get("USERNAME_ROOT_BG", 124) if
+                   self.is_root() else
+                   self.theme.get("USERNAME_BG", 240))
 
         self.append(user_prompt, fgcolor, bgcolor)

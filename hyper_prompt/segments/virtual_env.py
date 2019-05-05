@@ -12,6 +12,6 @@ class Segment(BasicSegment):
         if not env:
             return
         env_name = os.path.basename(env)
-        bg = self.theme.get("VIRTUAL_ENV_BG")
-        fg = self.theme.get("VIRTUAL_ENV_FG")
+        bg = self.theme.get("VIRTUAL_ENV_BG", 35)
+        fg = self.theme.get("VIRTUAL_ENV_FG", 00)
         self.append(" %s " % env_name, fg, bg)

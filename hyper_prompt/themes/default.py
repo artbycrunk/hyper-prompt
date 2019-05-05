@@ -12,9 +12,11 @@ class DefaultColor(object):
     VIRTUAL_ENV_FG = 00
 
     @classmethod
-    def get(cls, key):
+    def get(cls, key, default=None):
         if hasattr(cls, key):
             return getattr(cls, key)
+        if default:
+            return default
         if key.endswith("FG"):
             return cls.FG
         if key.endswith("BG"):
