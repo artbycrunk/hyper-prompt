@@ -8,7 +8,7 @@ Highly Customize-able prompt for your shell
 - Python3
 - Powerline Fonts : https://github.com/powerline/fonts
 
-## Setup
+## Getting Started
 
 ```bash
 git clone https://github.com/artbycrunk/hyper-prompt
@@ -16,7 +16,9 @@ cd hyper-prompt
 python setup.py install
 ```
 
-### Bash
+## Configure for your desired shell
+
+### * Bash
 
 Add the following to your `.bashrc` file:
 
@@ -30,7 +32,40 @@ if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
 fi
 ```
 
-### tcsh
+### * Zsh
+
+Add the following to your `.zshrc`:
+
+```zsh
+function prompt_precmd() {
+    PS1="$(hyper-prompt --shell zsh $?)"
+}
+
+function add_prompt_precmd() {
+  for s in "${precmd_fn[@]}"; do
+    if [ "$s" = "prompt_precmd" ]; then
+      return
+    fi
+  done
+  precmd_fn+=(prompt_precmd)
+}
+
+if [ "$TERM" != "linux" ]; then
+    add_prompt_precmd
+fi
+```
+
+### * Fish
+
+Add the following to your `~/.config/fish/config.fish`:
+
+```shell
+function fish_prompt
+    hyper-prompt --shell bare $status
+end
+```
+
+### * tcsh
 
 Add the following to your `.tcshrc`:
 
