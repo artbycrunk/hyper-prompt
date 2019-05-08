@@ -1,6 +1,13 @@
 # Hyper-prompt
 Highly Customize-able prompt for your shell
 
+![header](images/header.png)
+
+## Requirements
+
+- Python3
+- Powerline Fonts : https://github.com/powerline/fonts
+
 ## Setup
 
 ```bash
