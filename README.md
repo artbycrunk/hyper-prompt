@@ -1,7 +1,7 @@
 # Hyper-prompt
 Highly Customize-able prompt for your shell
 
-![header](images/header.png)
+![header](images/header.gif)
 
 ## Requirements
 
