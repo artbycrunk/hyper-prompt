@@ -38,26 +38,31 @@ Add the following to your `.tcshrc`:
 alias precmd 'set prompt="`hyper-prompt --shell tcsh $?`"'
 ```
 
-## Customization
+## Customization Options
 
 ### Config File
+
+Hyper prompt will lookup multiple locations for a config file for options on how to display your prompt..
+
+It will first look for a `hyper_prompt.json` in your current project/folder, if it doesn't exists look for `$HOME/.hyper_prompt.json` else finally look for `$HOME/.config/hyper_prompt/config.json`
 
 Use `~/.config/hyper-prompt/config.json` as a config file for customizations.
 
 Example of a default config
-```
+```json
 "theme": "default",
 "mode":"patched",
 "segments": [
     "username",
     {
         "type": "virtual",
+        # a user built segment which is discoverable via the python path
         "module": "hyper_prompt.segments.virtual"
     }
 ]
 ```
 
-### Segmets
+### Segments
 
 Segments are the building blocks of hyper-prompt
 
