@@ -1,4 +1,5 @@
 import os
+
 from ..segment import BasicSegment
 
 
@@ -12,6 +13,12 @@ class Segment(BasicSegment):
         if not env:
             return
         env_name = os.path.basename(env)
+        symbol = ""
+        if self.seg_conf.get("show_symbol", False):
+            symbol = "%s " % self.symbols.get("venv", '')
+
+        content = symbol + env_name
+
         bg = self.theme.get("VIRTUAL_ENV_BG", 35)
         fg = self.theme.get("VIRTUAL_ENV_FG", 00)
-        self.append(" %s " % env_name, fg, bg)
+        self.append(self.hyper_prompt._content % (content), fg, bg)
