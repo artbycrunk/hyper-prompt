@@ -9,21 +9,30 @@ from . import config, helpers, prompt
 
 def parser():
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('--shell', action='store', default='',
-                            help='Set this to your shell type',
-                            choices=['bash', 'tcsh', 'zsh', 'bare'])
-    arg_parser.add_argument('prev_error', nargs='?', type=int, default=0,
-                            help='Error code returned by the last command')
+    arg_parser.add_argument(
+        "--shell",
+        action="store",
+        default="",
+        help="Set this to your shell type",
+        choices=["bash", "tcsh", "zsh", "bare"],
+    )
+    arg_parser.add_argument(
+        "prev_error",
+        nargs="?",
+        type=int,
+        default=0,
+        help="Error code returned by the last command",
+    )
     args = arg_parser.parse_args()
     args.shell = detect_shell(args)
     return args
 
 
 def detect_shell(args):
-    '''
+    """
     If a shell is not provided by the user,
     use the shell currently installed user shell
-    '''
+    """
     if args.shell:
         return args.shell
 

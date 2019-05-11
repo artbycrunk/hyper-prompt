@@ -39,8 +39,8 @@ def ensure_dict(conf, conf_type="segment"):
 
 
 def warn(msg):
-    print('[%s] WARN: ' % defaults.NAME, msg)
+    print("[%s] WARN: " % defaults.NAME, msg)
 
 
 def info(msg):
-    print('[%s] INFO: ' % defaults.NAME, msg)
+    print("[%s] INFO: " % defaults.NAME, msg)

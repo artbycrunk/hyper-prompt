@@ -21,7 +21,10 @@ def get():
                 config = json.loads(f.read())
             except Exception as e:
                 helpers.warn(
-                    "Config file ({0}) could not be decoded! Error: {1}".format(config_path, e))
+                    "Config file ({0}) could not be decoded! Error: {1}".format(
+                        config_path, e
+                    )
+                )
                 config = defaults.CONFIG
     else:
         config = defaults.CONFIG
