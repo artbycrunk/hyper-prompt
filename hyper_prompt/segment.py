@@ -11,13 +11,6 @@ class BasicSegment(threading.Thread):
         self.hyper_prompt = hyper_prompt
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
-
-        # Allow for per segment symbol override
-        self.symbols = self.hyper_prompt.symbols
-        symbols = self.seg_conf.get("symbols", None)
-        if symbols:
-            self.symbols = defaults.SYMBOLS.get(symbols)
-
         self.activated = False
         self.content = None
         self.sub_segments = list()
@@ -50,6 +43,25 @@ class BasicSegment(threading.Thread):
     def bgcolor(self, code):
         return self.color('48', code)
 
+    @property
+    def separator(self):
+        separator = self.seg_conf.get("separator", None)
+        if separator:
+            return defaults.SEPARATORS.get(separator, [''])[0]
+        return self.hyper_prompt.separator
+
+    def symbol(self, name, symbol_map={}):
+        has_symbol = ""
+        show_symbols = self.seg_conf.get("show_symbols", None)
+        if show_symbols != False:
+            if show_symbols or self.hyper_prompt.show_symbols:
+                has_symbol = self.hyper_prompt.symbols.get(name)
+                if not has_symbol:
+                    has_symbol = symbol_map.get(name)
+                    if not has_symbol and hasattr(self, "SYMBOL"):
+                        has_symbol = self.SYMBOL
+        return ("%s " % has_symbol) if has_symbol else ""
+
     def append(self, content, fg, bg,
                separator=None, separator_fg=None, sanitize=True):
 
@@ -58,8 +70,6 @@ class BasicSegment(threading.Thread):
         self.content = content
         if self.hyper_prompt.shell == "bash" and sanitize:
             content = re.sub(r"([`$])", r"\\\1", content)
-
-        self.separator = self.symbols.get('separator')
         self._separator_fg = bg
         if separator is not None:
             self.separator = separator

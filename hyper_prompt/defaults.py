@@ -3,7 +3,15 @@ NAME = 'hyper-prompt'
 CONFIG = {
     "segments": [
         'virtual_env',
-        'username'
+        'username',
+        'hostname',
+        'ssh',
+        'cwd',
+        'git',
+        # 'hg',
+        # 'jobs',
+        "time",
+        'root',
     ]
 }
 
@@ -16,51 +24,41 @@ CONFIG_LOCATIONS = [
 
 SHELLS = {
     'bash': {
-        'root': ' \\$ ',
-        'hostname': r' \h ',
-        'time': ' \\t ',
-        'username': r' \u ',
+        'root': '\\$',
+        'hostname': r'\h',
+        'time': '\\t',
+        'username': r'\u',
         'color': r'\[\e%s\]'
     },
     'tcsh': {
-        'root': ' %# ',
+        'root': '%#',
         'color': r'%%{\e%s%%}',
     },
     'zsh': {
-        'root': ' %# ',
-        'hostname': ' %m ',
-        'time': ' %* ',
-        'username': ' %n ',
+        'root': '%#',
+        'hostname': '%m',
+        'time': '%*',
+        'username': '%n',
         'color': '%%{%s%%}'
     },
     'bare': {
-        'root': ' $ ',
+        'root': '$',
         'color': '%s'
     }
 }
 
-SYMBOLS = {
-    'compatible': {
-        'lock': 'RO',
-        'network': 'SSH',
-        'separator': u'\u25B6',
-        'separator_thin': u'\u276F'
-    },
-    'patched': {
-        'lock': u'\uE0A2',
-        'network': 'SSH',
-        'separator': u'\uE0B0',
-        'separator_thin': u'\uE0B1',
-        'venv': u'\u2699'
-    },
-    'flat': {
-        'lock': u'\uE0A2',
-        'network': 'SSH',
-        'separator': '',
-        'separator_thin': ''
-    },
+SEPARATORS = {
+    'compatible': [u'\u25B6', u'\u276F'],
+    'patched': [u'\uE0B0', u'\uE0B1'],
+    'agnle.l': [u'\uE0B8', u'\uE0B9'],
+    'angle.r': [u'\uE0BC', u'\uE0BD'],
+    'curvy': [u'\uE0B4', u'\uE0B5'],
+    'flames': [u'\uE0C0', u'\uE0C1'],
+    'lego': [u'\uE0CE', u'\uE0CF'],
+    'plugs': [u'\uE0D1', u'\uE0D2'],
+    'pixelated': [u'\uE0C6', u'\uE0C6'],
+    'flat': ['', '']
 }
-
 
 HEX_COLORS = [
     "000000", "800000", "008000", "808000", "000080", "800080", "008080",

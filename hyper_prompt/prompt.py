@@ -37,9 +37,11 @@ class Prompt(object):
         self._content = defaults.CONTENT
 
         self.reset = self.color_ % '[0m'
+        self.show_symbols = config.get("show_symbols", False)
 
-        mode = config.get("symbols", "patched")
-        self.symbols = defaults.SYMBOLS.get(mode, {})
+        separator = config.get("separator", "patched")
+        self.separator = defaults.SEPARATORS.get(separator, [''])[0]
+        self.symbols = config.get("symbols", {})
         self.segments = list()
 
     @property
