@@ -63,16 +63,25 @@ class Prompt(object):
                             self.segments.append(sub_segment)
 
     def draw(self):
+        segment_types = [segment.type for segment in self.segments]
+        for segment in self.segments:
+            if (segment.depends_on and 
+                    not segment.depends_on in segment_types):
+                segment.activated = False
+
+        active_segs = [segment for segment in self.segments if segment.activated]
+        active_segs_len = len(active_segs)
+
         items = list()
-        for idx in range(len(self.segments)):
-            segment = self.segments[idx]
+        for idx in range(active_segs_len):
+            segment = active_segs[idx]
             next_segment = None
-            if idx < len(self.segments) - 1:
-                next_segment = self.segments[idx + 1]
+            if idx < active_segs_len - 1:
+                next_segment = active_segs[idx + 1]
             draw = segment.draw(next_segment=next_segment)
             items.append(draw)
         concat_prompt = (''.join(items) + self.reset) + ' '
-
+        
         try:
             if isinstance(concat_prompt, unicode):
                 return concat_prompt.encode('utf8')

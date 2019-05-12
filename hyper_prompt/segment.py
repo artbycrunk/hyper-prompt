@@ -11,6 +11,7 @@ class BasicSegment(threading.Thread):
         self.hyper_prompt = hyper_prompt
         self.seg_conf = seg_conf  # type: dict
         self.type = self.seg_conf.get("type")
+        self.depends_on = self.seg_conf.get("depends_on", None)
         self.activated = False
         self.content = None
         self.sub_segments = list()
