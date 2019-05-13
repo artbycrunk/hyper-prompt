@@ -1,5 +1,5 @@
-import re
 import os
+import re
 import threading
 
 from . import defaults
@@ -15,10 +15,17 @@ class BasicSegment(threading.Thread):
         self.activated = False
         self.content = None
         self.sub_segments = list()
+        self.setattrs()
 
     @property
     def theme(self):
         return self.hyper_prompt.theme
+
+    def setattrs(self):
+        if hasattr(self, "ATTRIBUTES"):
+            for key, value in self.ATTRIBUTES.items():
+                value = self.seg_conf.get(key, value)
+                setattr(self, "attr_%s" % key, value)
 
     def run(self):
         self.activate()
