@@ -7,7 +7,8 @@ class Segment(BasicSegment):
         if (not var_value and
                 self.seg_conf.get("skip_undefined", False)):
             return
+        content = self.symbol('env') + var_value
         self.append(
-            " %s " % var_value,
+            self.hyper_prompt._content % (content),
             self.seg_conf.get("fg_color", self.theme.get("PATH_FG", 250)),
             self.seg_conf.get("bg_color", self.theme.get("PATH_BG", 237)))
