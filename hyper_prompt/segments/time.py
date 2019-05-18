@@ -4,6 +4,7 @@ import time
 
 
 class Segment(BasicSegment):
+    SYMBOL = u'\ufa1e'
 
     def get_time(self, time_format):
         return time.strftime(time_format)
@@ -13,10 +14,12 @@ class Segment(BasicSegment):
         time_format = self.seg_conf.get('format')
 
         if time_format:
-            time_str = ' %s ' % self.get_time(time_format)
+            time_str = self.get_time(time_format)
         else:
             time_str = self.hyper_prompt.shell_vars.get(
-                "time", ' %s ' % self.get_time(default_format))
-        self.append(time_str,
+                "time", self.get_time(default_format))
+        content = self.symbol('time') + time_str
+        
+        self.append(self.hyper_prompt._content % (content),
                     self.theme.get("TIME_FG", 250),
                     self.theme.get("TIME_BG", 238))
