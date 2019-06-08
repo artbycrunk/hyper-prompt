@@ -12,10 +12,10 @@ class Repo(object):
         'behind': u'\u2B07',
         'staged': u'\u2714',
         'changed': u'\u270E',
-        'new': u'?',
+        'new': u'\uf128',
         'conflicted': u'\u273C',
         'stash': u'\u2398',
-        'git': u'\uE0A0'
+        'git': u'\uf418'
     }
 
     def __init__(self):
@@ -93,7 +93,8 @@ class Segment(BasicSegment):
         value = getattr(self.repo, key)
         if value:
             name = str(value) if int(value) > 1 else u''
-            content = name + self.repo.symbols.get(key)
+            symbol = self.symbol(key, self.repo.symbols)
+            content = symbol + name
             segment.append(self.hyper_prompt._content % (content), fg, bg)
             self.sub_segments.append(segment)
 
@@ -106,10 +107,8 @@ class Segment(BasicSegment):
                 if self.repo.dirty:
                     fg, bg = (self.theme.get("REPO_DIRTY_FG", 15),
                               self.theme.get("REPO_DIRTY_BG", 161))
-                symbol = ""
-                if self.seg_conf.get("show_symbol", False):
-                    symbol = "%s " % self.repo.symbols.get("git")
-
+                symbol = self.symbol("git", self.repo.symbols)
+    
                 content = symbol + self.repo.branch
                 self.append(self.hyper_prompt._content % (content), fg, bg)
 
