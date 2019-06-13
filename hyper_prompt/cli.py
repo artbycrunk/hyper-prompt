@@ -50,11 +50,8 @@ def detect_shell(args):
     return current_shell
 
 
-def main():
-    args = parser()
-    s = signal.signal(signal.SIGINT, signal.SIG_IGN)
+def process(args):
     valid_config = config.get()
-
     _importer = helpers.Importer()
 
     theme_conf = valid_config.get("theme", "default")
@@ -88,5 +85,16 @@ def get_fallback_prompt(args):
     sys.stdout.write(prompt)
 
 
+def main():
+    args = parser()
+
+    s = signal.signal(signal.SIGINT, signal.SIG_IGN)
+    try:
+        if not os.environ.get("HYPER_PROMPT_DISABLE", None) == "1":
+            process(args)
+        else:
+            get_fallback_prompt(args)
+    except Exception:
+        get_fallback_prompt(args)
     signal.signal(signal.SIGINT, s)
     return 0
