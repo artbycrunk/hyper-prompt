@@ -17,6 +17,12 @@ def parser():
         choices=["bash", "tcsh", "zsh", "bare"],
     )
     arg_parser.add_argument(
+        "--fallback",
+        action="store",
+        default="",
+        help="Fallback to this value in cases of disaster",
+    )
+    arg_parser.add_argument(
         "prev_error",
         nargs="?",
         type=int,
@@ -73,5 +79,14 @@ def main():
     hyper_prompt.add_segments(segment_threads)
 
     sys.stdout.write(hyper_prompt.draw())
+
+
+def get_fallback_prompt(args):
+    prompt = str(os.environ.get("PROMPT"))
+    if args.fallback:
+        prompt = args.fallback
+    sys.stdout.write(prompt)
+
+
     signal.signal(signal.SIGINT, s)
     return 0
