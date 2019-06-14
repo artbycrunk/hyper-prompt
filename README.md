@@ -91,7 +91,7 @@ Example of a default config
     "username",
     {
         "type": "virtual",
-        # a user built segment which is discoverable via the python path
+        // a user built segment which is discoverable via the python path
         "module": "hyper_prompt.segments.virtual"
     }
 ]
