@@ -28,22 +28,26 @@ SHELLS = {
         'hostname': r'\h',
         'time': '\\t',
         'username': r'\u',
-        'color': r'\[\e%s\]'
+        'color': r'\[\e%s\]',
+        'newline': '\n'
     },
     'tcsh': {
         'root': '%#',
         'color': r'%%{\e%s%%}',
+        'newline': ' \\n'
     },
     'zsh': {
         'root': '%#',
         'hostname': '%m',
         'time': '%*',
         'username': '%n',
-        'color': '%%{%s%%}'
+        'color': '%%{%s%%}',
+        'newline': '\n'
     },
     'bare': {
         'root': '$',
-        'color': '%s'
+        'color': '%s',
+        'newline': '\n'
     }
 }
 
