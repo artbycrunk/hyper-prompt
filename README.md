@@ -1,5 +1,11 @@
 # Hyper-prompt
-Highly Customize-able prompt for your shell
+
+[![Version](https://img.shields.io/badge/version-1.0.1-green.svg)]()
+[![](https://img.shields.io/badge/TWITTER-%40artbycrunk-blue.svg?logo=twitter&style=flat)](https://twitter.com/artbycrunk)
+[![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")
+
+A Highly Customize-able prompt for your shell
 
 ![header](images/header.gif)
 
@@ -103,7 +109,20 @@ Segments are the building blocks of hyper-prompt
 
 You can mix and match different segments to build your prompt.
 
-## Troubleshooting
 
-If you continue to have issues, please open an
-[issue](https://github.com/artbycrunk/hyper-prompt/issues/new).
+## Issues, feature requests, and contributions
+
+* If you come across a problem with the extension, please [file an issue](https://github.com/artbycrunk/hyper-prompt/issues/new)
+* Contributions are always welcome!
+* Any and all feedback is appreciated and welcome!
+  - If someone has already [filed an issue](https://github.com/artbycrunk/hyper-prompt/issues) that encompasses your feedback, please leave a 👍/👎 reaction on the issue
+  - Otherwise please file a new issue
+
+## Release Notes
+
+See [CHANGELOG.md](./CHANGELOG.md)
+
+See [Recent Releases](https://github.com/artbycrunk/hyper-prompt/releases)
+
+**Enjoy!**
+
