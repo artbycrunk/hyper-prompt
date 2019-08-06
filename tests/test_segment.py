@@ -1,4 +1,3 @@
-
 import os
 
 import pytest
@@ -8,7 +7,8 @@ import hyper_prompt.helpers as helpers
 from hyper_prompt.prompt import Prompt
 from hyper_prompt.segment import BasicSegment
 
-args = {'prev_error': 0, 'shell': 'bash'}
+args = {"prev_error": 0, "shell": "bash"}
+
 
 @pytest.fixture
 def segment():
@@ -23,12 +23,14 @@ def test_getenv(segment):
 
 
 def test_fgcolor(segment):
-    assert (segment.fgcolor("00") ==
-            (defaults.SHELLS[segment.hyper_prompt.shell].get("color") %
-            ('[%s;5;%sm' % ("38", "00"))))
+    assert segment.fgcolor("00") == (
+        defaults.SHELLS[segment.hyper_prompt.shell].get("color")
+        % ("[%s;5;%sm" % ("38", "00"))
+    )
 
 
 def test_bgcolor(segment):
-    assert (segment.bgcolor("35") ==
-            (defaults.SHELLS[segment.hyper_prompt.shell].get("color") %
-            ('[%s;5;%sm' % ("48", "35"))))
+    assert segment.bgcolor("35") == (
+        defaults.SHELLS[segment.hyper_prompt.shell].get("color")
+        % ("[%s;5;%sm" % ("48", "35"))
+    )
