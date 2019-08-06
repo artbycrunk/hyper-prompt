@@ -9,26 +9,22 @@ class Segment(BasicSegment):
         "max_depth": 5,
         "max_dir_size": False,
         "mode": False,
-        "show_readonly": False
+        "show_readonly": False,
     }
 
-    symbols = {
-        'cwd': u'\uf07c',
-        'cwd_home': u'\uf7db',
-        'ellipsis': u'\u2026'
-    }
+    symbols = {"cwd": "\uf07c", "cwd_home": "\uf7db", "ellipsis": "\u2026"}
 
     def replace_home_dir(self, cwd):
-        home = os.path.realpath(self.getenv('HOME'))
+        home = os.path.realpath(self.getenv("HOME"))
         real_cwd = os.path.realpath(cwd)
         if real_cwd.startswith(home):
-            return '~' + real_cwd[len(home):]
+            return "~" + real_cwd[len(home) :]
         return cwd
 
     def split_path_into_names(self, cwd, sep=os.sep):
         names = cwd.split(sep)
 
-        if names[0] == '':
+        if names[0] == "":
             names = names[1:]
 
         if not names[0]:
@@ -39,9 +35,11 @@ class Segment(BasicSegment):
     def add_lock_sub_segment(self):
         segment = BasicSegment(self.hyper_prompt, self.seg_conf)
         if not os.access(self.hyper_prompt.cwd, os.W_OK):
-            symbol = self.symbol('lock', {'lock': u'\uf023'}).strip()
-            fg, bg = (self.theme.get("READONLY_FG", 254),
-                      self.theme.get("READONLY_BG", 124))
+            symbol = self.symbol("lock", {"lock": "\uf023"}).strip()
+            fg, bg = (
+                self.theme.get("READONLY_FG", 254),
+                self.theme.get("READONLY_BG", 124),
+            )
             segment.append(self.hyper_prompt._content % (symbol), fg, bg)
             self.sub_segments.append(segment)
 
@@ -49,15 +47,19 @@ class Segment(BasicSegment):
         cwd = self.replace_home_dir(self.hyper_prompt.cwd)
 
         sep = os.path.sep
-        if '/' in cwd:
-            sep = '/'
+        if "/" in cwd:
+            sep = "/"
 
         names = self.split_path_into_names(cwd, sep=sep)
-        
+
         max_depth = self.attr_max_depth
         if max_depth > 0 and len(names) > max_depth:
             n_before = 2 if max_depth > 2 else max_depth - 1
-            names = names[:n_before] + [self.symbols.get('ellipsis')] + names[n_before - max_depth:]
+            names = (
+                names[:n_before]
+                + [self.symbols.get("ellipsis")]
+                + names[n_before - max_depth :]
+            )
 
         if self.attr_mode == "dironly":
             # Only display current working dir
@@ -78,11 +80,13 @@ class Segment(BasicSegment):
 
         fg, bg = self.theme.get("CWD_FG", 254), self.theme.get("PATH_BG", 237)
         if joined.startswith("~"):
-            symbol = self.symbol('cwd_home', self.symbols)
-            fg, bg = (self.theme.get("HOME_FG", 254),
-                      self.theme.get("HOME_BG", 31))
+            symbol = self.symbol("cwd_home", self.symbols)
+            fg, bg = (
+                self.theme.get("HOME_FG", 254),
+                self.theme.get("HOME_BG", 31),
+            )
         else:
-            symbol = self.symbol('cwd', self.symbols)
+            symbol = self.symbol("cwd", self.symbols)
             if self.attr_mode != "dironly":
                 if not joined.startswith(sep):
                     joined = sep + joined

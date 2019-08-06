@@ -5,7 +5,7 @@ from ..segment import BasicSegment
 
 
 class Segment(BasicSegment):
-    SYMBOL = u'\uf6c3'
+    SYMBOL = "\uf6c3"
 
     @property
     def hostname(self):
@@ -15,9 +15,10 @@ class Segment(BasicSegment):
 
     def activate(self):
         host_prompt = self.hyper_prompt.shell_vars.get(
-            "hostname", self.hostname.split(".")[0])
+            "hostname", self.hostname.split(".")[0]
+        )
 
-        content = self.symbol('hostname') + host_prompt
+        content = self.symbol("hostname") + host_prompt
 
         if self.seg_conf.get("colorize"):
             FG, BG = colors.string_to_colors(self.hostname, short=True)

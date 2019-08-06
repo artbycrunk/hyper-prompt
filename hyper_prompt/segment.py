@@ -38,24 +38,23 @@ class BasicSegment(threading.Thread):
 
     def color(self, prefix, code):
         if code is None:
-            return ''
+            return ""
         elif code == self.theme.RESET:
             return self.hyper_prompt.reset
         else:
-            return self.hyper_prompt.color_ % (
-                '[%s;5;%sm' % (prefix, code))
+            return self.hyper_prompt.color_ % ("[%s;5;%sm" % (prefix, code))
 
     def fgcolor(self, code):
-        return self.color('38', code)
+        return self.color("38", code)
 
     def bgcolor(self, code):
-        return self.color('48', code)
+        return self.color("48", code)
 
     @property
     def separator(self):
         separator = self.seg_conf.get("separator", None)
         if separator:
-            return defaults.SEPARATORS.get(separator, [''])[0]
+            return defaults.SEPARATORS.get(separator, [""])[0]
         return self.hyper_prompt.separator
 
     def symbol(self, name, symbol_map={}):
@@ -70,8 +69,9 @@ class BasicSegment(threading.Thread):
                         has_symbol = self.SYMBOL
         return ("%s " % has_symbol) if has_symbol else ""
 
-    def append(self, content, fg, bg,
-               separator=None, separator_fg=None, sanitize=True):
+    def append(
+        self, content, fg, bg, separator=None, separator_fg=None, sanitize=True
+    ):
 
         self.fg, self.bg = fg, bg
 
@@ -88,16 +88,19 @@ class BasicSegment(threading.Thread):
 
     def draw(self, next_segment=None):
         if not self.activated:
-            return ''
+            return ""
 
         post_bg = self.hyper_prompt.reset
         if next_segment:
             post_bg = self.bgcolor(next_segment.bg)
 
-        return ''.join((
-            self.fgcolor(self.fg),
-            self.bgcolor(self.bg),
-            self.content,
-            post_bg,
-            self.fgcolor(self._separator_fg),
-            self.separator))
+        return "".join(
+            (
+                self.fgcolor(self.fg),
+                self.bgcolor(self.bg),
+                self.content,
+                post_bg,
+                self.fgcolor(self._separator_fg),
+                self.separator,
+            )
+        )

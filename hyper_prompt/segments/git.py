@@ -7,21 +7,31 @@ from ..segment import BasicSegment
 
 class Repo(object):
     symbols = {
-        'detached': u'\u2693',
-        'ahead': u'\u2B06',
-        'behind': u'\u2B07',
-        'staged': u'\u2714',
-        'changed': u'\u270E',
-        'new': u'\uf128',
-        'conflicted': u'\u273C',
-        'stash': u'\u2398',
-        'git': u'\uf418'
+        "detached": "\u2693",
+        "ahead": "\u2B06",
+        "behind": "\u2B07",
+        "staged": "\u2714",
+        "changed": "\u270E",
+        "new": "\uf128",
+        "conflicted": "\u273C",
+        "stash": "\u2398",
+        "git": "\uf418",
     }
 
     def __init__(self):
 
-        self.attrs = ["new", "changed", "staged", "conflicted", "active",
-                      "ahead", "behind", "conflicted", "branch", "remote"]
+        self.attrs = [
+            "new",
+            "changed",
+            "staged",
+            "conflicted",
+            "active",
+            "ahead",
+            "behind",
+            "conflicted",
+            "branch",
+            "remote",
+        ]
         for attr in self.attrs:
             setattr(self, attr, 0)
         self.status()
@@ -36,8 +46,9 @@ class Repo(object):
 
     def status(self):
         try:
-            proc = subprocess.Popen(['git', 'status', '--porcelain', '-b'],
-                                    stdout=subprocess.PIPE)
+            proc = subprocess.Popen(
+                ["git", "status", "--porcelain", "-b"], stdout=subprocess.PIPE
+            )
         except OSError:
             return (None, None)
 
@@ -49,39 +60,42 @@ class Repo(object):
 
         for statusline in status[1:]:
             code = statusline[:2]
-            if code == '??':
+            if code == "??":
                 self.new += 1
-            elif code in ('DD', 'AU', 'UD', 'UA', 'DU', 'AA', 'UU'):
+            elif code in ("DD", "AU", "UD", "UA", "DU", "AA", "UU"):
                 self.conflicted += 1
             else:
-                if code[1] != ' ':
+                if code[1] != " ":
                     self.changed += 1
-                if code[0] != ' ':
+                if code[0] != " ":
                     self.staged += 1
 
-        info = re.search('^## (?P<local>\S+?)''(\.{3}(?P<remote>\S+?)( \[(ahead (?P<ahead>\d+)(, )?)?(behind (?P<behind>\d+))?\])?)?$', status[0])
+        info = re.search(
+            "^## (?P<local>\S+?)"
+            "(\.{3}(?P<remote>\S+?)( \[(ahead (?P<ahead>\d+)(, )?)?(behind (?P<behind>\d+))?\])?)?$",
+            status[0],
+        )
         branch = info.groupdict() if info else {}
 
         self.ahead = branch.get("ahead", 0)
         self.behind = branch.get("behind", 0)
-        self.branch = branch.get("local", '')
-        self.remote = branch.get("remote", '')
+        self.branch = branch.get("local", "")
+        self.remote = branch.get("remote", "")
 
         self.active = True
 
 
 class Segment(BasicSegment):
-
     def is_gitdir(self, cwd):
         found = False
         _cwd = cwd
-        while cwd != '/':
+        while cwd != "/":
             if os.access(".git", os.R_OK):
                 found = True
                 self.git_dir = cwd
                 break
             _cwd = os.getcwd()
-            os.chdir('..')
+            os.chdir("..")
             cwd = os.getcwd()
             if cwd == _cwd:
                 break
@@ -92,7 +106,7 @@ class Segment(BasicSegment):
         segment = BasicSegment(self.hyper_prompt, self.seg_conf)
         value = getattr(self.repo, key)
         if value:
-            name = str(value) if int(value) > 1 else u''
+            name = str(value) if int(value) > 1 else ""
             symbol = self.symbol(key, self.repo.symbols)
             content = symbol + name
             segment.append(self.hyper_prompt._content % (content), fg, bg)
@@ -102,31 +116,47 @@ class Segment(BasicSegment):
         if self.is_gitdir(self.hyper_prompt.cwd):
             self.repo = Repo()
             if self.repo.active:
-                fg, bg = (self.theme.get("REPO_CLEAN_FG", 0),
-                          self.theme.get("REPO_CLEAN_BG", 148))
+                fg, bg = (
+                    self.theme.get("REPO_CLEAN_FG", 0),
+                    self.theme.get("REPO_CLEAN_BG", 148),
+                )
                 if self.repo.dirty:
-                    fg, bg = (self.theme.get("REPO_DIRTY_FG", 15),
-                              self.theme.get("REPO_DIRTY_BG", 161))
+                    fg, bg = (
+                        self.theme.get("REPO_DIRTY_FG", 15),
+                        self.theme.get("REPO_DIRTY_BG", 161),
+                    )
                 symbol = self.symbol("git", self.repo.symbols)
-    
+
                 content = symbol + self.repo.branch
                 self.append(self.hyper_prompt._content % (content), fg, bg)
 
-                self.add_sub_segment('ahead',
-                                     self.theme.get("GIT_AHEAD_FG", 250),
-                                     self.theme.get("GIT_AHEAD_BG", 240))
-                self.add_sub_segment('behind',
-                                     self.theme.get("GIT_BEHIND_FG", 250),
-                                     self.theme.get("GIT_BEHIND_BG", 240))
-                self.add_sub_segment('staged',
-                                     self.theme.get("GIT_STAGED_FG", 15),
-                                     self.theme.get("GIT_STAGED_BG", 22))
-                self.add_sub_segment('changed',
-                                     self.theme.get("GIT_NOTSTAGED_FG", 15),
-                                     self.theme.get("GIT_NOTSTAGED_BG", 130))
-                self.add_sub_segment('new',
-                                     self.theme.get("GIT_UNTRACKED_FG", 15),
-                                     self.theme.get("GIT_UNTRACKED_BG", 52))
-                self.add_sub_segment('conflicted',
-                                     self.theme.get("GIT_CONFLICTED_FG", 15),
-                                     self.theme.get("GIT_CONFLICTED_BG", 9))
+                self.add_sub_segment(
+                    "ahead",
+                    self.theme.get("GIT_AHEAD_FG", 250),
+                    self.theme.get("GIT_AHEAD_BG", 240),
+                )
+                self.add_sub_segment(
+                    "behind",
+                    self.theme.get("GIT_BEHIND_FG", 250),
+                    self.theme.get("GIT_BEHIND_BG", 240),
+                )
+                self.add_sub_segment(
+                    "staged",
+                    self.theme.get("GIT_STAGED_FG", 15),
+                    self.theme.get("GIT_STAGED_BG", 22),
+                )
+                self.add_sub_segment(
+                    "changed",
+                    self.theme.get("GIT_NOTSTAGED_FG", 15),
+                    self.theme.get("GIT_NOTSTAGED_BG", 130),
+                )
+                self.add_sub_segment(
+                    "new",
+                    self.theme.get("GIT_UNTRACKED_FG", 15),
+                    self.theme.get("GIT_UNTRACKED_BG", 52),
+                )
+                self.add_sub_segment(
+                    "conflicted",
+                    self.theme.get("GIT_CONFLICTED_FG", 15),
+                    self.theme.get("GIT_CONFLICTED_BG", 9),
+                )

@@ -22,7 +22,8 @@ def get_valid_cwd():
         up = os.sep.join(parts)
     if cwd != up:
         helpers.warn(
-            "Your current directory is invalid. Lowest valid directory: " + up)
+            "Your current directory is invalid. Lowest valid directory: " + up
+        )
     return cwd
 
 
@@ -36,11 +37,11 @@ class Prompt(object):
         self.color_ = self.shell_vars.get("color")
         self._content = defaults.CONTENT
 
-        self.reset = self.color_ % '[0m'
+        self.reset = self.color_ % "[0m"
         self.show_symbols = config.get("show_symbols", False)
 
         separator = config.get("separator", "patched")
-        self.separator = defaults.SEPARATORS.get(separator, [''])[0]
+        self.separator = defaults.SEPARATORS.get(separator, [""])[0]
         self.symbols = config.get("symbols", {})
         self.segments = list()
 
@@ -65,11 +66,12 @@ class Prompt(object):
     def draw(self):
         segment_types = [segment.type for segment in self.segments]
         for segment in self.segments:
-            if (segment.depends_on and 
-                    not segment.depends_on in segment_types):
+            if segment.depends_on and not segment.depends_on in segment_types:
                 segment.activated = False
 
-        active_segs = [segment for segment in self.segments if segment.activated]
+        active_segs = [
+            segment for segment in self.segments if segment.activated
+        ]
         active_segs_len = len(active_segs)
 
         items = list()
@@ -80,10 +82,10 @@ class Prompt(object):
                 next_segment = active_segs[idx + 1]
             draw = segment.draw(next_segment=next_segment)
             items.append(draw)
-        concat_prompt = (''.join(items) + self.reset) + ' '
-        
+        concat_prompt = ("".join(items) + self.reset) + " "
+
         try:
             if isinstance(concat_prompt, unicode):
-                return concat_prompt.encode('utf8')
+                return concat_prompt.encode("utf8")
         except Exception:
             return concat_prompt
