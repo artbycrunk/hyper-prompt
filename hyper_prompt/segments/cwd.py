@@ -12,6 +12,12 @@ class Segment(BasicSegment):
         "show_readonly": False
     }
 
+    symbols = {
+        'cwd': u'\uf07c',
+        'cwd_home': u'\uf7db',
+        'ellipsis': u'\u2026'
+    }
+
     def replace_home_dir(self, cwd):
         home = os.path.realpath(self.getenv('HOME'))
         real_cwd = os.path.realpath(cwd)
@@ -40,12 +46,6 @@ class Segment(BasicSegment):
             self.sub_segments.append(segment)
 
     def activate(self):
-        symbols = {
-            'cwd': u'\uf07c',
-            'cwd_home': u'\uf7db',
-            'ellipsis': u'\u2026'
-        }
-
         cwd = self.replace_home_dir(self.hyper_prompt.cwd)
 
         sep = os.path.sep
@@ -57,7 +57,7 @@ class Segment(BasicSegment):
         max_depth = self.attr_max_depth
         if max_depth > 0 and len(names) > max_depth:
             n_before = 2 if max_depth > 2 else max_depth - 1
-            names = names[:n_before] + [symbols['ellipsis']] + names[n_before - max_depth:]
+            names = names[:n_before] + [self.symbols.get('ellipsis')] + names[n_before - max_depth:]
 
         if self.attr_mode == "dironly":
             # Only display current working dir
@@ -78,11 +78,11 @@ class Segment(BasicSegment):
 
         fg, bg = self.theme.get("CWD_FG", 254), self.theme.get("PATH_BG", 237)
         if joined.startswith("~"):
-            symbol = self.symbol('cwd_home', symbols)
+            symbol = self.symbol('cwd_home', self.symbols)
             fg, bg = (self.theme.get("HOME_FG", 254),
                       self.theme.get("HOME_BG", 31))
         else:
-            symbol = self.symbol('cwd', symbols)
+            symbol = self.symbol('cwd', self.symbols)
             if self.attr_mode != "dironly":
                 if not joined.startswith(sep):
                     joined = sep + joined
