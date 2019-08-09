@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/badge/version-1.0.1-green.svg)]()
 [![](https://img.shields.io/badge/TWITTER-%40artbycrunk-blue.svg?logo=twitter&style=flat)](https://twitter.com/artbycrunk)
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
-[![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")
+[![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open") [![Join the chat at https://gitter.im/hyper-prompt/community](https://badges.gitter.im/hyper-prompt/community.svg)](https://gitter.im/hyper-prompt/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A Highly Customize-able prompt for your shell
 
