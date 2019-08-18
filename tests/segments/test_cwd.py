@@ -24,6 +24,10 @@ def test_cwd_home(cwd_segment):
     cwd_segment.activate()
     assert cwd_segment.content == defaults.CONTENT % "~"
 
+def test_cwd_root(cwd_segment):
+    cwd_segment.hyper_prompt.cwd = "/"
+    cwd_segment.activate()
+    assert cwd_segment.content == defaults.CONTENT % "/"
 
 @pytest.mark.parametrize(
     "cwd, result, mode",
@@ -47,6 +51,14 @@ def test_cwd_maxsize(cwd_segment):
     cwd_segment.setattrs()
     cwd_segment.activate()
     assert cwd_segment.content == defaults.CONTENT % "/var/tmp/hyper"
+
+
+def test_cwd_readonly(cwd_segment):
+    cwd_segment.hyper_prompt.cwd = "/var/tmp/hyper_prompt"
+    cwd_segment.seg_conf["show_readonly"] = True
+    cwd_segment.setattrs()
+    cwd_segment.activate()
+    assert cwd_segment.content == defaults.CONTENT % "/var/tmp/hyper_prompt"
 
 
 @pytest.mark.parametrize(

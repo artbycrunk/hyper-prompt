@@ -25,9 +25,11 @@ class Segment(BasicSegment):
         names = cwd.split(sep)
 
         if names[0] == "":
+            # cwd starts with /
             names = names[1:]
 
         if not names[0]:
+            # cwd is just a /
             return [os.sep]
 
         return names

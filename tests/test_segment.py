@@ -22,15 +22,33 @@ def test_getenv(segment):
     assert segment.getenv("USER") == os.getenv("USER")
 
 
-def test_fgcolor(segment):
-    assert segment.fgcolor("00") == (
-        defaults.SHELLS[segment.hyper_prompt.shell].get("color")
-        % ("[%s;5;%sm" % ("38", "00"))
-    )
+def test_draw(segment):
+    segment.append(content='Test', fg=15, bg=161)
+    assert segment.draw() == '\[\e[38;5;15m\]\[\e[48;5;161m\]Test\[\e[0m\]\[\e[38;5;161m\]'
 
 
-def test_bgcolor(segment):
-    assert segment.bgcolor("35") == (
-        defaults.SHELLS[segment.hyper_prompt.shell].get("color")
-        % ("[%s;5;%sm" % ("48", "35"))
-    )
+def test_activate(segment):
+    with pytest.raises(NotImplementedError):
+        segment.run()
+
+@pytest.mark.parametrize(
+    "prefix, code",
+    [
+        ("38", "00"),
+        ("48", "35"),
+        ("38", None),
+        ("48", 'RESET'),
+    ],
+)
+def test_color(segment, prefix, code):
+    if not code:
+        assert segment.color(prefix, code) == ''
+
+    elif code == "RESET":
+        assert (segment.color(prefix, segment.theme.RESET) == 
+        (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[0m")))
+
+    else:
+         assert (segment.color(prefix, code) == 
+         (defaults.SHELLS[segment.hyper_prompt.shell].get("color") 
+                % ("[%s;5;%sm" % (prefix, code))))
