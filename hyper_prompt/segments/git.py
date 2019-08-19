@@ -34,7 +34,6 @@ class Repo(object):
         ]
         for attr in self.attrs:
             setattr(self, attr, 0)
-        self.status()
 
     @property
     def dirty(self):
@@ -44,19 +43,25 @@ class Repo(object):
 
         return str({attr: getattr(self, attr) for attr in self.attrs})
 
-    def status(self):
+    def subprocess(self, cmd):
         try:
-            proc = subprocess.Popen(
-                ["git", "status", "--porcelain", "-b"], stdout=subprocess.PIPE
-            )
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         except OSError:
             return (None, None)
 
         data = proc.communicate()
         if proc.returncode != 0:
             return (None, None)
+        
+        return data[0].decode("utf-8")
 
-        status = data[0].decode("utf-8").splitlines()
+    def get_branch(self):
+        cmd = ["git", "rev-parse", "--abbrev-ref", "HEAD"]
+        return self.subprocess(cmd).strip()
+
+    def status(self):
+        cmd = ["git", "status", "--porcelain", "-b"]
+        status = self.subprocess(cmd).splitlines()
 
         for statusline in status[1:]:
             code = statusline[:2]
@@ -71,8 +76,8 @@ class Repo(object):
                     self.staged += 1
 
         info = re.search(
-            "^## (?P<local>\S+?)"
-            "(\.{3}(?P<remote>\S+?)( \[(ahead (?P<ahead>\d+)(, )?)?(behind (?P<behind>\d+))?\])?)?$",
+            r"^## (?P<local>\S+?)"
+            r"(\.{3}(?P<remote>\S+?)( \[(ahead (?P<ahead>\d+)(, )?)?(behind (?P<behind>\d+))?\])?)?$",
             status[0],
         )
         branch = info.groupdict() if info else {}
@@ -86,6 +91,10 @@ class Repo(object):
 
 
 class Segment(BasicSegment):
+    ATTRIBUTES = {
+        "skip_dirs": [],
+    }
+
     def is_gitdir(self, cwd):
         found = False
         _cwd = cwd
@@ -115,48 +124,56 @@ class Segment(BasicSegment):
     def activate(self):
         if self.is_gitdir(self.hyper_prompt.cwd):
             self.repo = Repo()
-            if self.repo.active:
-                fg, bg = (
-                    self.theme.get("REPO_CLEAN_FG", 0),
-                    self.theme.get("REPO_CLEAN_BG", 148),
-                )
-                if self.repo.dirty:
-                    fg, bg = (
-                        self.theme.get("REPO_DIRTY_FG", 15),
-                        self.theme.get("REPO_DIRTY_BG", 161),
-                    )
-                symbol = self.symbol("git", self.repo.symbols)
+            fg, bg = (
+                self.theme.get("REPO_CLEAN_FG", 0),
+                self.theme.get("REPO_CLEAN_BG", 148),
+            )
+            symbol = self.symbol("git", self.repo.symbols)
+            content = symbol + str(self.repo.get_branch())
 
-                content = symbol + self.repo.branch
+            # if skipped dir, only show branch name
+            if self.hyper_prompt.cwd in self.attr_skip_dirs:
                 self.append(self.hyper_prompt._content % (content), fg, bg)
+                return True
 
-                self.add_sub_segment(
-                    "ahead",
-                    self.theme.get("GIT_AHEAD_FG", 250),
-                    self.theme.get("GIT_AHEAD_BG", 240),
+            self.repo.status()
+            if not self.repo.active:
+                return False
+
+            if self.repo.dirty:
+                fg, bg = (
+                    self.theme.get("REPO_DIRTY_FG", 15),
+                    self.theme.get("REPO_DIRTY_BG", 161),
                 )
-                self.add_sub_segment(
-                    "behind",
-                    self.theme.get("GIT_BEHIND_FG", 250),
-                    self.theme.get("GIT_BEHIND_BG", 240),
-                )
-                self.add_sub_segment(
-                    "staged",
-                    self.theme.get("GIT_STAGED_FG", 15),
-                    self.theme.get("GIT_STAGED_BG", 22),
-                )
-                self.add_sub_segment(
-                    "changed",
-                    self.theme.get("GIT_NOTSTAGED_FG", 15),
-                    self.theme.get("GIT_NOTSTAGED_BG", 130),
-                )
-                self.add_sub_segment(
-                    "new",
-                    self.theme.get("GIT_UNTRACKED_FG", 15),
-                    self.theme.get("GIT_UNTRACKED_BG", 52),
-                )
-                self.add_sub_segment(
-                    "conflicted",
-                    self.theme.get("GIT_CONFLICTED_FG", 15),
-                    self.theme.get("GIT_CONFLICTED_BG", 9),
-                )
+            self.append(self.hyper_prompt._content % (content), fg, bg)
+
+            self.add_sub_segment(
+                "ahead",
+                self.theme.get("GIT_AHEAD_FG", 250),
+                self.theme.get("GIT_AHEAD_BG", 240),
+            )
+            self.add_sub_segment(
+                "behind",
+                self.theme.get("GIT_BEHIND_FG", 250),
+                self.theme.get("GIT_BEHIND_BG", 240),
+            )
+            self.add_sub_segment(
+                "staged",
+                self.theme.get("GIT_STAGED_FG", 15),
+                self.theme.get("GIT_STAGED_BG", 22),
+            )
+            self.add_sub_segment(
+                "changed",
+                self.theme.get("GIT_NOTSTAGED_FG", 15),
+                self.theme.get("GIT_NOTSTAGED_BG", 130),
+            )
+            self.add_sub_segment(
+                "new",
+                self.theme.get("GIT_UNTRACKED_FG", 15),
+                self.theme.get("GIT_UNTRACKED_BG", 52),
+            )
+            self.add_sub_segment(
+                "conflicted",
+                self.theme.get("GIT_CONFLICTED_FG", 15),
+                self.theme.get("GIT_CONFLICTED_BG", 9),
+            )
