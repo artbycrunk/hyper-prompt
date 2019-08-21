@@ -9,6 +9,6 @@ class Segment(BasicSegment):
             content = self.symbol("network") + "SSH"
             self.append(
                 self.hyper_prompt._content % (content),
-                self.theme.get("SSH_FG", 254),
-                self.theme.get("SSH_BG", 166),
+                self.seg_conf.get("fg_color", self.theme.get("SSH_FG", 254)),
+                self.seg_conf.get("bg_color", self.theme.get("SSH_BG", 166)),
             )

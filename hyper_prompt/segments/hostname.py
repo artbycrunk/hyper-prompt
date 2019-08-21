@@ -23,6 +23,8 @@ class Segment(BasicSegment):
         if self.seg_conf.get("colorize"):
             FG, BG = colors.string_to_colors(self.hostname, short=True)
         else:
-            FG = self.theme.get("HOSTNAME_FG", 250)
-            BG = self.theme.get("HOSTNAME_BG", 238)
+            FG = self.seg_conf.get(
+                "fg_color", self.theme.get("HOSTNAME_FG", 250))
+            BG = self.seg_conf.get(
+                "bg_color", self.theme.get("HOSTNAME_BG", 238))
         self.append(self.hyper_prompt._content % (content), FG, BG)

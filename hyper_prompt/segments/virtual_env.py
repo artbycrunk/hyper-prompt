@@ -19,6 +19,8 @@ class Segment(BasicSegment):
         env_name = os.path.basename(env)
         content = self.symbol("venv") + env_name
 
-        bg = self.theme.get("VIRTUAL_ENV_BG", 35)
-        fg = self.theme.get("VIRTUAL_ENV_FG", 00)
-        self.append(self.hyper_prompt._content % (content), fg, bg)
+        self.append(
+            self.hyper_prompt._content % (content), 
+            self.seg_conf.get("fg_color", self.theme.get("VIRTUAL_ENV_FG", 00)),
+            self.seg_conf.get("bg_color", self.theme.get("VIRTUAL_ENV_BG", 35))
+        )
