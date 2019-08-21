@@ -9,6 +9,11 @@ from . import config, helpers, prompt
 def parser():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument(
+        "--version",
+        action="store_true",
+        help="Output the version"
+    )
+    arg_parser.add_argument(
         "--shell",
         action="store",
         default="",
@@ -78,14 +83,19 @@ def process(args):
 
 
 def get_fallback_prompt(args):
-    prompt = str(os.environ.get("PROMPT"))
+    active_prompt = str(os.environ.get("PROMPT"))
     if args.fallback:
-        prompt = args.fallback
-    sys.stdout.write(prompt)
+        active_prompt = args.fallback
+    sys.stdout.write(active_prompt)
 
 
 def main():
     args = parser()
+    
+    if args.version:
+        import hyper_prompt
+        print(hyper_prompt.__version__)
+        return 0
 
     s = signal.signal(signal.SIGINT, signal.SIG_IGN)
     try:
