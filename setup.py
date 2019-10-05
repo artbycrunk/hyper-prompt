@@ -25,6 +25,12 @@ setup(
     install_requires=[
         "argparse",
     ],
+    extras_require={
+        'develop':[
+            'pytest',
+            'pytest-cov'
+        ]
+    },
     entry_points="""
     [console_scripts]
     hyper-prompt=hyper_prompt.cli:main
