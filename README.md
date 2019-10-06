@@ -1,6 +1,6 @@
 # Hyper-prompt
 
-[![Version](https://img.shields.io/badge/version-1.0.1-green.svg)]()
+[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)]()
 
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")

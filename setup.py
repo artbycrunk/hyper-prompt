@@ -4,13 +4,13 @@ from setuptools import setup
 
 setup(
     name="hyper-prompt",
-    version="1.0.1",
+    version="1.1.0",
     description="Highly Customize-able prompt for your shell",
     author="Savio Fernandes",
     author_email="savio@saviof.com",
     license="MIT",
     url="https://github.com/artbycrunk/hyper-prompt",
-    download_url = 'https://github.com/artbycrunk/hyper-prompt/archive/1.0.1.tar.gz',
+    download_url = 'https://github.com/artbycrunk/hyper-prompt/archive/1.1.0.tar.gz',
     keywords = ['PROMPTS', 'SHELL', 'BASH', "ZSH"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
