@@ -1,9 +1,13 @@
 # Hyper-prompt
 
 [![Version](https://img.shields.io/badge/version-1.0.1-green.svg)]()
-[![](https://img.shields.io/badge/TWITTER-%40artbycrunk-blue.svg?logo=twitter&style=flat)](https://twitter.com/artbycrunk)
+
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")
+
+[![](https://img.shields.io/badge/TWITTER-%40artbycrunk-blue.svg?logo=twitter&style=flat)](https://twitter.com/artbycrunk)
+[![](https://img.shields.io/badge/gitter-join_chat-1dce73.svg?style=flat&logo=gitter-white)](https://gitter.im/hyper-prompt/hyper-prompt)
+
 
 A Highly Customize-able prompt for your shell
 
