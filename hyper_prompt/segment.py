@@ -58,11 +58,13 @@ class BasicSegment(threading.Thread):
         return self.hyper_prompt.separator
 
     def symbol(self, name, symbol_map=None):
-        has_symbol = None
+        has_symbol = ""
         show_symbols = self.seg_conf.get("show_symbols", None)
-        if show_symbols != False:
-            if show_symbols or self.hyper_prompt.show_symbols:
-                has_symbol = self.hyper_prompt.symbols.get(name)
+        if show_symbols == False:
+            return "%s " % has_symbol
+
+        if show_symbols or self.hyper_prompt.show_symbols:
+            has_symbol = self.hyper_prompt.symbols.get(name)
             if not has_symbol and symbol_map:
                 has_symbol = symbol_map.get(name)
             if not has_symbol and hasattr(self, "SYMBOL"):
