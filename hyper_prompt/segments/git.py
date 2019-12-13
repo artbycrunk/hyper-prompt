@@ -59,9 +59,17 @@ class Repo(object):
         cmd = ["git", "rev-parse", "--abbrev-ref", "HEAD"]
         return self.subprocess(cmd).strip()
 
-    def status(self):
+    def get_stash(self):
+        cmd = ["git", "stash", "list"]
+        stash = self.subprocess(cmd).splitlines()
+        self.stash = len(stash) if stash else 1
+
+    def status(self, show_stash=False):
         cmd = ["git", "status", "--porcelain", "-b"]
         status = self.subprocess(cmd).splitlines()
+
+        if show_stash:
+            self.get_stash()
 
         for statusline in status[1:]:
             code = statusline[:2]
@@ -89,10 +97,10 @@ class Repo(object):
 
         self.active = True
 
-
 class Segment(BasicSegment):
     ATTRIBUTES = {
         "skip_dirs": [],
+        "show_stash": False,
     }
 
     def is_gitdir(self, cwd):
@@ -113,11 +121,10 @@ class Segment(BasicSegment):
 
     def add_sub_segment(self, key, fg, bg):
         segment = BasicSegment(self.hyper_prompt, self.seg_conf)
-        value = getattr(self.repo, key)
+        value = getattr(self.repo, key, None)
         if value:
-            name = str(value) if int(value) > 1 else ""
             symbol = self.symbol(key, self.repo.symbols)
-            content = symbol + name
+            content = symbol + str(value)
             segment.append(self.hyper_prompt._content % (content), fg, bg)
             self.sub_segments.append(segment)
 
@@ -136,7 +143,7 @@ class Segment(BasicSegment):
                 self.append(self.hyper_prompt._content % (content), fg, bg)
                 return True
 
-            self.repo.status()
+            self.repo.status(show_stash=self.attr_show_stash)
             if not self.repo.active:
                 return False
 
@@ -176,4 +183,9 @@ class Segment(BasicSegment):
                 "conflicted",
                 self.theme.get("GIT_CONFLICTED_FG", 15),
                 self.theme.get("GIT_CONFLICTED_BG", 9),
+            )
+            self.add_sub_segment(
+                "stash",
+                self.theme.get("GIT_STASH_BG", 221),
+                self.theme.get("GIT_STASH_FG", 0),
             )
