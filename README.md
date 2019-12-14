@@ -20,7 +20,13 @@ A Highly Customize-able prompt for your shell
 
 ## Getting Started
 
+* from pip
 ```bash
+pip install hyper-prompt
+```
+
+* from github
+```
 git clone https://github.com/artbycrunk/hyper-prompt
 cd hyper-prompt
 python setup.py install
