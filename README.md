@@ -1,6 +1,8 @@
 # Hyper-prompt
 
-[![Version](https://img.shields.io/badge/version-1.1.0-green.svg)]()
+[![image](https://img.shields.io/pypi/v/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
+[![image](https://img.shields.io/pypi/l/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
+[![image](https://img.shields.io/pypi/pyversions/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
 
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")
@@ -21,7 +23,7 @@ A Highly Customize-able prompt for your shell
 ## Getting Started
 
 * from pip
-```bash
+```bash 
 pip install hyper-prompt
 ```
 
@@ -130,7 +132,7 @@ You can mix and match different segments to build your prompt.
 
 ## Release Notes
 
-See [CHANGELOG.md](./CHANGELOG.md)
+See [CHANGELOG.md](https://github.com/artbycrunk/hyper-prompt/blob/master/CHANGELOG.md)
 
 See [Recent Releases](https://github.com/artbycrunk/hyper-prompt/releases)
 
