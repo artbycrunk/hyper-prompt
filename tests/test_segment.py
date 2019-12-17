@@ -10,8 +10,8 @@ from hyper_prompt.segment import BasicSegment
 args = {"prev_error": 0, "shell": "bash"}
 
 
-@pytest.fixture
-def segment():
+@pytest.fixture(name="segment")
+def fixture_segment():
     _importer = helpers.Importer()
     theme = _importer.import_theme("hyper_prompt.themes.default")
     hyper_prompt = Prompt(args, {}, theme)

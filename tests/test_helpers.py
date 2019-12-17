@@ -31,6 +31,9 @@ def test_import_segment():
     [("warn", "warn testing"), ("info", "info testing")],
 )
 def test_warn_info(capsys, mode, msg):
-    helpers.warn(msg) if mode == "warn" else helpers.info(msg)
+    if mode == "warn":
+        helpers.warn(msg)
+    else:
+        helpers.info(msg)
     captured = capsys.readouterr()
     assert msg in captured.out
