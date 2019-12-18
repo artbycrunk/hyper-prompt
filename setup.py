@@ -2,9 +2,15 @@
 
 from setuptools import setup
 
+def get_version():
+    with open("hyper_prompt/__init__.py") as f:
+        for line in f:
+            if line.startswith("__version__"):
+                return eval(line.split("=")[-1])
+
 setup(
     name="hyper-prompt",
-    version="1.1.0",
+    version=get_version(),
     description="Highly Customize-able prompt for your shell",
     author="Savio Fernandes",
     author_email="savio@saviof.com",
