@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 from setuptools import setup
 
@@ -48,14 +49,5 @@ setup(
     install_requires=[
         "argparse",
     ],
-    extras_require={
-        'develop':[
-            'pytest',
-            'pytest-cov'
-        ]
-    },
-    entry_points="""
-    [console_scripts]
-    hyper-prompt=hyper_prompt.cli:main
-    """,
+    entry_points={"console_scripts": ["hyper-prompt = hyper_prompt.cli:main"]}
 )
