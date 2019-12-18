@@ -8,10 +8,16 @@ def get_version():
             if line.startswith("__version__"):
                 return eval(line.split("=")[-1])
 
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 setup(
     name="hyper-prompt",
     version=get_version(),
     description="Highly Customize-able prompt for your shell",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     author="Savio Fernandes",
     author_email="savio@saviof.com",
     license="MIT",
