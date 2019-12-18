@@ -23,7 +23,7 @@ setup(
     license="MIT",
     url="https://github.com/artbycrunk/hyper-prompt",
     download_url = 'https://github.com/artbycrunk/hyper-prompt/archive/1.1.0.tar.gz',
-    keywords = ['PROMPTS', 'SHELL', 'BASH', "ZSH"],
+    keywords = ['prompts', 'shell', 'bash', "zsh"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         'License :: OSI Approved :: MIT License',
