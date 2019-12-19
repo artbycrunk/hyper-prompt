@@ -1,6 +1,10 @@
+
+# -*- coding: utf-8 -*-
+
 import os
 
 import pytest
+import sys
 
 import hyper_prompt.defaults as defaults
 import hyper_prompt.helpers as helpers
@@ -24,7 +28,9 @@ def test_getenv(segment):
 
 def test_draw(segment):
     segment.append(content='Test', fg=15, bg=161)
-    assert segment.draw() == '\[\e[38;5;15m\]\[\e[48;5;161m\]Test\[\e[0m\]\[\e[38;5;161m\]'
+    prompt = r'\[\e[38;5;15m\]\[\e[48;5;161m\]Test\[\e[0m\]\[\e[38;5;161m\]'
+    prompt += r'' if sys.version_info.major == 3 else r'\uE0B0'
+    assert segment.draw() == prompt
 
 
 def test_activate(segment):
@@ -49,6 +55,6 @@ def test_color(segment, prefix, code):
         (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[0m")))
 
     else:
-         assert (segment.color(prefix, code) == 
+        assert (segment.color(prefix, code) == 
          (defaults.SHELLS[segment.hyper_prompt.shell].get("color") 
                 % ("[%s;5;%sm" % (prefix, code))))
