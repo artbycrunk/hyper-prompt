@@ -1,5 +1,6 @@
 import json
 import os
+import re
 
 from . import defaults, helpers
 
@@ -18,7 +19,9 @@ def get():
     if config_path:
         with open(config_path) as f:
             try:
-                config = json.loads(f.read())
+                config = json.loads(
+                    re.sub("//.*", "", f.read(), flags=re.MULTILINE)
+                )
             except Exception as e:
                 helpers.warn(
                     "Config file ({0}) could not be decoded! Error: {1}".format(
