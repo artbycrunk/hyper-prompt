@@ -42,7 +42,13 @@ class BasicSegment(threading.Thread):
         elif code == self.theme.RESET:
             return self.hyper_prompt.reset
         else:
-            return self.hyper_prompt.color_ % ("[%s;5;%sm" % (prefix, code))
+            mode = "5"
+            if isinstance(code, (tuple, list)):
+                code = ";".join([str(x) for x in code])
+                mode = "2"  # rgb color
+            return self.hyper_prompt.color_ % (
+                "[%s;%s;%sm" % (prefix, mode, code)
+            )
 
     def fgcolor(self, code):
         return self.color("38", code)
