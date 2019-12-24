@@ -1,39 +1,16 @@
-from colorsys import hls_to_rgb, rgb_to_hls
 from hashlib import md5
 from math import sqrt
 
 from . import defaults
 
 
-def get_opposite_color(r, g, b):
-    # convert to float before getting hls value
-    r, g, b = [x / 255.0 for x in [r, g, b]]
-    hls = rgb_to_hls(r, g, b)
-    opp = list(hls[:])
-    # shift hue (a.k.a. color)
-    opp[0] = (opp[0] + 0.2) % 1
-    if opp[1] > 255 / 2:  # for level you want to make sure they
-        opp[1] -= 255 / 2  # are quite different so easily readable
-    else:
-        opp[1] += 255 / 2
-    if opp[2] > -0.5:  # if saturation is low on first color increase second's
-        opp[2] -= 0.5
-    opp = hls_to_rgb(*opp)
-    m = max(opp)
-    if m > 255:  # colorsys module doesn't give caps to their conversions
-        opp = [x * 254 / m for x in opp]
-    return tuple([int(x) for x in opp])
-
-
-def rgbstring2tuple(s):
-    return tuple([int(h, 16) for h in (s[:2], s[2:4], s[4:])])
-
-
 def __hex2rgb(hexa):
-    r = int(hexa[0:2], 16)
-    g = int(hexa[2:4], 16)
-    b = int(hexa[4:6], 16)
-    return [r, g, b]
+    return [int(hexa[i : i + 2], 16) for i in (0, 2, 4)]
+
+
+def __rgb2hex(r, g=None, b=None):
+    color = r if isinstance(r, tuple) else (r, g, b)
+    return "%02x%02x%02x" % color
 
 
 def __distance(a, b):
@@ -43,29 +20,23 @@ def __distance(a, b):
     return sqrt(x + y + z)
 
 
-_colors = list(map(__hex2rgb, defaults.HEX_COLORS))
-
-
-def rgb2short(r, g=None, b=None):
+def rgb2lut(r, g=None, b=None):
     """
-    Return the nearest xterm 256 color code from rgb input.
+    Return the nearest color from LUT given an rgb input.
     """
-    c = r if isinstance(r, list) else [r, g, b]
+    color = r if isinstance(r, list) else [r, g, b]
     best = dict()
-
-    for index, item in enumerate(_colors):
-        d = __distance(item, c)
-        if not best or d <= best.get("distance"):
-            best = {"distance": d, "index": index}
-
-    return best.get("index", 1)
+    for item in defaults.COLOR_LUT:
+        distance = __distance(item[2], color)
+        if not best or distance <= best.get("distance"):
+            best = {"distance": distance, "value": item}
+    return best.get("value", defaults.COLOR_LUT[1])
 
 
-def string_to_colors(string, short=False):
-    string = string.encode("utf-8")
-    string = md5(string).hexdigest()[:6]  # get a random color
-    color1 = rgbstring2tuple(string)
-    color2 = get_opposite_color(*color1)
+def string_to_colors(input_string, short=False):
+    input_string = md5(input_string.encode("utf-8")).hexdigest()[:6]
+    rgb = tuple(__hex2rgb(input_string))
+    lut = rgb2lut(*rgb)
     if short:
-        return tuple((rgb2short(*color) for color in [color1, color2]))
-    return color1, color2
+        return (lut[0], lut[4])
+    return lut[2], lut[3]
