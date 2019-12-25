@@ -1,7 +1,7 @@
 import pytest
 
 import hyper_prompt.colors as colors
-
+import hyper_prompt.defaults as defaults
 
 @pytest.mark.parametrize(
     "test, result",
@@ -12,16 +12,17 @@ import hyper_prompt.colors as colors
         ((255, 215, 215), 224),
     ],
 )
-def test_rgb2short(test, result):
-    assert colors.rgb2short(*test) == result
-
+def test_rgb2lut(test, result):
+    lut = colors.rgb2lut(*test)
+    assert lut == defaults.COLOR_LUT[result]
 
 @pytest.mark.parametrize(
     "test, result, short",
     [
-        ("hyper-prompt", ((158, 27, 204), (94, 161, 157)), False),
+        ("hyper-prompt", ((175, 0, 215), (64, 189, 191)), False),
         ("hyper-prompt", ((128, 73)), True),
     ],
 )
 def test_string_to_colors(test, result, short):
+    print(colors.string_to_colors(test, short=short))
     assert colors.string_to_colors(test, short=short) == result
