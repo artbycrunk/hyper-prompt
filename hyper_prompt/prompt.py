@@ -32,6 +32,7 @@ class Prompt(object):
         self.args = args
         self.config = config
         self.theme = theme
+        self.theme.hyper_prompt = self
         self.cwd = get_valid_cwd()
         self.shell_vars = defaults.SHELLS.get(self.shell, {})
         self.color_ = self.shell_vars.get("color")
