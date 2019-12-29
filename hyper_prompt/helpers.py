@@ -15,7 +15,7 @@ class Importer(object):
 
     def import_theme(self, module):
         theme_mod = self._import(module, description="Theme")
-        return getattr(theme_mod, "Color")
+        return getattr(theme_mod, "Theme")
 
     def import_segment(self, module):
         segment_mod = self._import(module, description="Segment")
@@ -34,7 +34,8 @@ def ensure_dict(conf, conf_type="segment"):
     if not isinstance(conf, dict):
         conf = {"type": conf, "name": conf}
     if "module" not in conf:
-        conf["module"] = "hyper_prompt.%ss.%s" % (conf_type, conf["type"])
+        module = conf.get("type", conf.get("name"))
+        conf["module"] = "hyper_prompt.%ss.%s" % (conf_type, module)
     return conf
 
 
