@@ -1,27 +1,13 @@
-class DefaultColor(object):
-    RESET = -1
-
-    BG = 35
-    FG = 00
-
-    USERNAME_FG = 250
-    USERNAME_BG = 240
-    USERNAME_ROOT_BG = 124
-
-    VIRTUAL_ENV_BG = 35
-    VIRTUAL_ENV_FG = 00
-
-    @classmethod
-    def get(cls, key, default=None):
-        if hasattr(cls, key):
-            return getattr(cls, key)
-        if default:
-            return default
-        if key.endswith("FG"):
-            return cls.FG
-        if key.endswith("BG"):
-            return cls.BG
+from ..theme import BasicTheme
 
 
-class Color(DefaultColor):
-    pass
+class Theme(BasicTheme):
+    USERNAME_FG = (188, 188, 188)
+    USERNAME_BG = (88, 88, 88)
+    USERNAME_ROOT_BG = (175, 0, 0)
+
+    VIRTUAL_ENV_BG = (0, 175, 95)
+    VIRTUAL_ENV_FG = (0, 0, 0)
+
+    SSH_BG = (240, 121, 9)
+    SSH_FG = (228, 228, 228)
