@@ -9,9 +9,7 @@ from . import config, helpers, prompt
 def parser():
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument(
-        "--version",
-        action="store_true",
-        help="Output the version"
+        "--version", action="store_true", help="Output the version"
     )
     arg_parser.add_argument(
         "--shell",
@@ -58,11 +56,12 @@ def process(args):
     valid_config = config.get()
     _importer = helpers.Importer()
 
-    theme_conf = valid_config.get("theme", "default")
+    theme_conf = valid_config.get("theme", "default") or "default"
     theme_conf = helpers.ensure_dict(theme_conf, conf_type="theme")
     theme_module = theme_conf.get("module")
 
-    theme = _importer.import_theme(theme_module)
+    _theme = _importer.import_theme(theme_module)
+    theme = _theme(theme_conf)
 
     hyper_prompt = prompt.Prompt(args, valid_config, theme)
 
@@ -91,9 +90,10 @@ def get_fallback_prompt(args):
 
 def main():
     args = parser()
-    
+
     if args.version:
         import hyper_prompt
+
         print(hyper_prompt.__version__)
         return 0
 
