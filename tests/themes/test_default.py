@@ -1,15 +1,15 @@
 import pytest
 
-from hyper_prompt.themes.default import DefaultColor
+from hyper_prompt.themes.default import Theme
 
 
 @pytest.mark.parametrize(
     "test, result",
-    [("RESET", DefaultColor.RESET), 
-     ("USERNAME_FG", DefaultColor.USERNAME_FG),
-     ("TEST_FG", DefaultColor.FG),
-     ("TEST_BG", DefaultColor.BG)
+    [("RESET", Theme.RESET), 
+     ("USERNAME_FG", Theme.USERNAME_FG),
+     ("TEST_FG", Theme.FG),
+     ("TEST_BG", Theme.BG)
     ],
 )
 def test_get_key(test, result):
-    assert DefaultColor.get(test) == result
+    assert Theme({}).get(test) == result
