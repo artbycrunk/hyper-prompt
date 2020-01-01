@@ -11,7 +11,8 @@ args = {"prev_error": 0, "shell": "bash"}
 @pytest.fixture(name="segment")
 def fixture_segment():
     _importer = helpers.Importer()
-    theme = _importer.import_theme("hyper_prompt.themes.default")
+    _theme = _importer.import_theme("hyper_prompt.themes.default")
+    theme = _theme({})
     hyper_prompt = Prompt(args, {}, theme)
     return Segment(hyper_prompt, {"show_symbols": True})
 

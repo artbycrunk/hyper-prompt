@@ -14,7 +14,8 @@ ELLIPSIS = cwd.Segment.symbols.get("ellipsis", "\u2026")
 @pytest.fixture(name="cwd_segment")
 def fixture_cwd_segment():
     _importer = helpers.Importer()
-    theme = _importer.import_theme("hyper_prompt.themes.default")
+    _theme = _importer.import_theme("hyper_prompt.themes.default")
+    theme = _theme({})
     hyper_prompt = Prompt(args, {}, theme)
     return cwd.Segment(hyper_prompt, {})
 
