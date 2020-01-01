@@ -26,11 +26,18 @@ def test_getenv(segment):
     assert segment.getenv("USER") == os.getenv("USER")
 
 
-def test_draw(segment):
-    segment.append(content='Test', fg=15, bg=161)
-    prompt = r'\[\e[38;5;15m\]\[\e[48;5;161m\]Test\[\e[0m\]\[\e[38;5;161m\]'
-    prompt += r'' if sys.version_info.major == 3 else r'\uE0B0'
-    assert segment.draw() == prompt
+@pytest.mark.parametrize(
+    "content, fg, bg",
+    [
+        ("Test", 15, 161),
+        ("Host", 220, 80)
+    ],
+)
+def test_draw(segment, content, fg, bg):
+    segment.append(content=content, fg=fg, bg=bg)
+    prompt = r'\[\e[38;5;%sm\]\[\e[48;5;%sm\]%s\[\e[0m\]\[\e[38;5;%sm\]' % (
+        fg, bg, content, bg)
+    assert segment.draw().startswith(prompt)
 
 
 def test_activate(segment):
