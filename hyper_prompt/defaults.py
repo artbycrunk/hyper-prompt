@@ -52,16 +52,16 @@ SHELLS = {
 }
 
 SEPARATORS = {
-    'compatible': [u'\u25B6', u'\u276F'],
-    'patched': [u'\uE0B0', u'\uE0B1'],
-    'agnle.l': [u'\uE0B8', u'\uE0B9'],
-    'angle.r': [u'\uE0BC', u'\uE0BD'],
-    'curvy': [u'\uE0B4', u'\uE0B5'],
-    'flames': [u'\uE0C0', u'\uE0C1'],
-    'lego': [u'\uE0CE', u'\uE0CF'],
-    'plugs': [u'\uE0D1', u'\uE0D2'],
-    'pixelated': [u'\uE0C6', u'\uE0C6'],
-    'flat': ['', '']
+    "compatible": ["\u25B6", "\u276F"],
+    "patched": ["\uE0B0", "\uE0B1"],
+    "angle.l": ["\uE0B8", "\uE0B9"],
+    "angle.r": ["\uE0BC", "\uE0BD"],
+    "curvy": ["\uE0B4", "\uE0B5"],
+    "flames": ["\uE0C0", "\uE0C1"],
+    "lego": ["\uE0CE", "\uE0CF"],
+    "plugs": ["\uE0D1", "\uE0D2"],
+    "pixelated": ["\uE0C6", "\uE0C6"],
+    "flat": ["", ""],
 }
 
 # index, hex, rgb, compliment_rgb, compliment_hex
