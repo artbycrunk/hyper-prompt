@@ -1,8 +1,11 @@
 # Hyper-prompt
 
 [![image](https://img.shields.io/pypi/v/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
-[![image](https://img.shields.io/pypi/l/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
 [![image](https://img.shields.io/pypi/pyversions/hyper-prompt.svg)](https://pypi.org/project/hyper-prompt/)
+[![GitHub license](https://img.shields.io/github/license/artbycrunk/hyper-prompt)](https://github.com/artbycrunk/hyper-prompt/blob/master/LICENSE)
+
+[![Documentation Status](https://readthedocs.org/projects/hyper-prompt/badge/?version=latest)](https://hyper-prompt.readthedocs.io/en/latest/?badge=latest)
+[![GitHub Actions (Python package)](https://github.com/artbycrunk/hyper-prompt/workflows/Tests/badge.svg)](https://github.com/artbycrunk/hyper-prompt)
 
 [![Average time to resolve an issue](https://isitmaintained.com/badge/resolution/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Average time to resolve an issue")
 [![Percentage of issues still open](https://isitmaintained.com/badge/open/artbycrunk/hyper-prompt.svg)](https://isitmaintained.com/project/artbycrunk/hyper-prompt "Percentage of issues still open")
