@@ -44,12 +44,15 @@ python setup.py install
 Add the following to your `.bashrc` file:
 
 ```bash
-function _update_ps1() {
-    PS1=$(hyper-prompt $?)
-}
+# enable hyper-prompt if executable exists
+if hash hyper-prompt 2>/dev/null; then
+  function _update_ps1() {
+      PS1=$(hyper-prompt --shell bash $?)
+  }
 
-if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
-    PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+  if [[ $TERM != linux && ! $PROMPT_COMMAND =~ _update_ps1 ]]; then
+      PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
+  fi
 fi
 ```
 
