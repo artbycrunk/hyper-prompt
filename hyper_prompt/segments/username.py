@@ -16,9 +16,13 @@ class Segment(BasicSegment):
 
         content = self.symbol("username") + user_prompt
 
-        fgcolor = self.seg_conf.get("fg_color", self.theme.get("USERNAME_FG", 250))
-        bgcolor = self.seg_conf.get("bg_color",
+        fgcolor = self.seg_conf.get(
+            "fg_color", self.theme.get("USERNAME_FG", 250)
+        )
+        bgcolor = self.seg_conf.get(
+            "bg_color",
             self.theme.get("USERNAME_ROOT_BG", 124)
-            if self.is_root() else self.theme.get("USERNAME_BG", 240)
+            if self.is_root()
+            else self.theme.get("USERNAME_BG", 240),
         )
         self.append(self.hyper_prompt._content % (content), fgcolor, bgcolor)

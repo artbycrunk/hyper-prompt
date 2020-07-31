@@ -25,6 +25,5 @@ class Segment(BasicSegment):
         self.append(
             self.hyper_prompt._content % (content),
             self.seg_conf.get("fg_color", self.theme.get("TIME_FG", 250)),
-            self.seg_conf.get("bg_color", self.theme.get("TIME_BG", 238))
+            self.seg_conf.get("bg_color", self.theme.get("TIME_BG", 238)),
         )
-
