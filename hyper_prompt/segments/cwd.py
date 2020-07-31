@@ -12,7 +12,7 @@ class Segment(BasicSegment):
         "show_readonly": False,
     }
 
-    symbols = {"cwd": u"\uf07c", "cwd_home": u"\uf7db", "ellipsis": u"\u2026"}
+    symbols = {"cwd": "\uf07c", "cwd_home": "\uf7db", "ellipsis": "\u2026"}
 
     def replace_home_dir(self, cwd):
         home = os.path.realpath(self.getenv("HOME"))
