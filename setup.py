@@ -1,21 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from setuptools import find_packages
 from setuptools import setup
-
-def get_version():
-    with open("hyper_prompt/__init__.py") as f:
-        for line in f:
-            if line.startswith("__version__"):
-                return eval(line.split("=")[-1])
-
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
     name="hyper-prompt",
-    version=get_version(),
+    version="1.1.0",
     description="Highly Customize-able prompt for your shell",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -23,8 +17,10 @@ setup(
     author_email="savio@saviof.com",
     license="MIT",
     url="https://github.com/artbycrunk/hyper-prompt",
-    download_url = 'https://github.com/artbycrunk/hyper-prompt/archive/1.1.0.tar.gz',
-    keywords = ['prompts', 'shell', 'bash', "zsh"],
+    download_url='https://github.com/artbycrunk/hyper-prompt/archive/1.1.0.tar.gz',
+    keywords=['prompts', 'shell', 'bash', "zsh"],
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
@@ -41,13 +37,12 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=[
-        "hyper_prompt",
-        "hyper_prompt.segments",
-        "hyper_prompt.themes",
-    ],
     install_requires=[
         "argparse",
     ],
-    entry_points={"console_scripts": ["hyper-prompt = hyper_prompt.cli:main"]}
+    entry_points={
+        "console_scripts": [
+            "hyper-prompt = hyper_prompt.cli:main"
+        ]
+    }
 )

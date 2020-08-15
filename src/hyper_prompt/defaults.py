@@ -16,9 +16,9 @@ CONFIG = {
 CONTENT = " %s "
 
 CONFIG_LOCATIONS = [
-    "hyper_prompt.{shell}.json"
+    "hyper_prompt.{shell}.json",
     "~/.hyper_prompt.{shell}.json",
-    "~/.config/hyper_prompt/config.{shell}.json"
+    "~/.config/hyper_prompt/config.{shell}.json",
     "hyper_prompt.json",
     "~/.hyper_prompt.json",
     "~/.config/hyper_prompt/config.json",

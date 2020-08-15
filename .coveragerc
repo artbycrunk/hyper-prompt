@@ -1,0 +1,16 @@
+[run]
+source = hyper_prompt
+branch = True
+
+[paths]
+source =
+    src/
+    /usr/lib/python3.6/site-packages
+    /usr/local/lib/python3.6/site-packages
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise
+show_missing = True
+skip_covered = True
