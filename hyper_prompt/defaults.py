@@ -1,54 +1,49 @@
-NAME = 'hyper-prompt'
+NAME = "hyper-prompt"
 
 CONFIG = {
     "segments": [
-        'virtual_env',
-        'username',
-        'hostname',
-        'ssh',
-        'cwd',
-        'git',
-        # 'hg',
-        # 'jobs',
+        "virtual_env",
+        "username",
+        "hostname",
+        "ssh",
+        "cwd",
+        "git",
         "time",
-        'root',
+        "root",
     ]
 }
 
 CONTENT = " %s "
 
 CONFIG_LOCATIONS = [
+    "hyper_prompt.{shell}.json"
+    "~/.hyper_prompt.{shell}.json",
+    "~/.config/hyper_prompt/config.{shell}.json"
     "hyper_prompt.json",
     "~/.hyper_prompt.json",
-    "~/.config/hyper_prompt/config.json"]
+    "~/.config/hyper_prompt/config.json",
+]
 
 SHELLS = {
-    'bash': {
-        'root': '\\$',
-        'hostname': r'\h',
-        'time': '\\t',
-        'username': r'\u',
-        'color': r'\[\e%s\]',
-        'newline': '\n'
+    "bash": {
+        "root": "\\$",
+        "hostname": r"\h",
+        "time": "\\t",
+        "username": r"\u",
+        "color": r"\[\e%s\]",
+        "print_color": "\033%s",
+        "newline": "\n",
     },
-    'tcsh': {
-        'root': '%#',
-        'color': r'%%{\e%s%%}',
-        'newline': ' \\n'
+    "tcsh": {"root": "%#", "color": r"%%{\e%s%%}", "newline": " \\n"},
+    "zsh": {
+        "root": "%#",
+        "hostname": "%m",
+        "time": "%*",
+        "username": "%n",
+        "color": "%%{%s%%}",
+        "newline": "\n",
     },
-    'zsh': {
-        'root': '%#',
-        'hostname': '%m',
-        'time': '%*',
-        'username': '%n',
-        'color': '%%{%s%%}',
-        'newline': '\n'
-    },
-    'bare': {
-        'root': '$',
-        'color': '%s',
-        'newline': '\n'
-    }
+    "bare": {"root": "$", "color": "%s", "newline": "\n"},
 }
 
 SEPARATORS = {

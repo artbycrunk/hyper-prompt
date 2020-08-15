@@ -5,30 +5,34 @@ import re
 from . import defaults, helpers
 
 
-def find():
+def find(args):
     for location in defaults.CONFIG_LOCATIONS:
-        fullpath = os.path.expanduser(location)
+        fullpath = os.path.expanduser(
+            location.format(**vars(args)))
         if os.path.exists(fullpath):
             return fullpath
     return None
 
 
-def get():
+def get(args):
+    config_path = find(args)
+    if not config_path:
+        return defaults.CONFIG
+
+    if args.debug:
+        print("Using config path: %s" % config_path)
+
     config = dict()
-    config_path = find()
-    if config_path:
-        with open(config_path) as f:
-            try:
-                config = json.loads(
-                    re.sub("//.*", "", f.read(), flags=re.MULTILINE)
+    with open(config_path) as f:
+        try:
+            config = json.loads(
+                re.sub("//.*", "", f.read(), flags=re.MULTILINE)
+            )
+        except Exception as e:
+            helpers.warn(
+                "Config file ({0}) could not be decoded! Error: {1}".format(
+                    config_path, e
                 )
-            except Exception as e:
-                helpers.warn(
-                    "Config file ({0}) could not be decoded! Error: {1}".format(
-                        config_path, e
-                    )
-                )
-                config = defaults.CONFIG
-    else:
-        config = defaults.CONFIG
+            )
+            return defaults.CONFIG
     return config

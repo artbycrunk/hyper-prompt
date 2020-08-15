@@ -13,15 +13,13 @@ def test_ensure_dict(test, result):
     assert conf.get(test) == result
 
 
-def test_import_exception():
+def test_import_exception(importer):
     with pytest.raises(helpers.ModuleNotFoundException):
-        _importer = helpers.Importer()
-        _segment = _importer.import_segment("hyper_prompt.segments.not_cwd")
+        importer.import_segment("hyper_prompt.segments.not_cwd")
 
 
-def test_import_segment():
-    _importer = helpers.Importer()
-    _segment = _importer.import_segment("hyper_prompt.segments.cwd")
+def test_import_segment(importer):
+    _segment = importer.import_segment("hyper_prompt.segments.cwd")
     from hyper_prompt.segments.cwd import Segment
 
     assert Segment == _segment

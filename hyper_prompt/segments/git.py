@@ -47,22 +47,22 @@ class Repo(object):
         try:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         except OSError:
-            return (None, None)
+            return ''
 
         data = proc.communicate()
         if proc.returncode != 0:
-            return (None, None)
-        
+            return ''
+
         return data[0].decode("utf-8")
 
     def get_branch(self):
         cmd = ["git", "rev-parse", "--abbrev-ref", "HEAD"]
-        return self.subprocess(cmd).strip()
+        return self.subprocess(cmd).strip() or 'master'
 
     def get_stash(self):
         cmd = ["git", "stash", "list"]
         stash = self.subprocess(cmd).splitlines()
-        self.stash = len(stash) if stash else 1
+        self.stash = len(stash) if stash else None
 
     def status(self, show_stash=False):
         cmd = ["git", "status", "--porcelain", "-b"]
@@ -96,6 +96,7 @@ class Repo(object):
         self.remote = branch.get("remote", "")
 
         self.active = True
+
 
 class Segment(BasicSegment):
     ATTRIBUTES = {

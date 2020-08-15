@@ -4,22 +4,14 @@
 import os
 
 import pytest
-import sys
 
 import hyper_prompt.defaults as defaults
-import hyper_prompt.helpers as helpers
-from hyper_prompt.prompt import Prompt
 from hyper_prompt.segment import BasicSegment
-
-args = {"prev_error": 0, "shell": "bash"}
 
 
 @pytest.fixture(name="segment")
-def fixture_segment():
-    _importer = helpers.Importer()
-    theme = _importer.import_theme("hyper_prompt.themes.default")
-    hyper_prompt = Prompt(args, {}, theme)
-    return BasicSegment(hyper_prompt, {})
+def fixture_segment(prompt):
+    return BasicSegment(prompt, {})
 
 
 def test_getenv(segment):
@@ -44,6 +36,7 @@ def test_activate(segment):
     with pytest.raises(NotImplementedError):
         segment.run()
 
+
 @pytest.mark.parametrize(
     "prefix, code",
     [
@@ -58,10 +51,9 @@ def test_color(segment, prefix, code):
         assert segment.color(prefix, code) == ''
 
     elif code == "RESET":
-        assert (segment.color(prefix, segment.theme.RESET) == 
+        assert (segment.color(prefix, segment.theme.RESET) ==
         (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[0m")))
 
     else:
-        assert (segment.color(prefix, code) == 
-         (defaults.SHELLS[segment.hyper_prompt.shell].get("color") 
-                % ("[%s;5;%sm" % (prefix, code))))
+        assert (segment.color(prefix, code) ==
+                (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[%s;5;%sm" % (prefix, code))))

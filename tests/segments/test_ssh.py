@@ -1,20 +1,11 @@
-import pytest
 import os
+import pytest
 
-import hyper_prompt.helpers as helpers
-from hyper_prompt.prompt import Prompt
 from hyper_prompt.segments.ssh import Segment
 
-args = {"prev_error": 0, "shell": "bash"}
-
-
 @pytest.fixture(name="segment")
-def fixture_segment():
-    _importer = helpers.Importer()
-    _theme = _importer.import_theme("hyper_prompt.themes.default")
-    theme = _theme({})
-    hyper_prompt = Prompt(args, {}, theme)
-    return Segment(hyper_prompt, {"show_symbols": True})
+def fixture_segment(prompt):
+    return Segment(prompt, {"show_symbols": True})
 
 
 def test_symbol(segment):

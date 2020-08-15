@@ -35,13 +35,16 @@ class Prompt(object):
         self.theme.hyper_prompt = self
         self.cwd = get_valid_cwd()
         self.shell_vars = defaults.SHELLS.get(self.shell, {})
-        self.color_ = self.shell_vars.get("color")
+
+        color_key = "color" if not args.showall else "print_color"
+        self.color_ = self.shell_vars.get(color_key)
+
         self._content = defaults.CONTENT
 
         self.reset = self.color_ % "[0m"
         self.show_symbols = config.get("show_symbols", False)
 
-        separator = config.get("separator", "patched")
+        separator = args.separator or config.get("separator", "patched")
         self.separator = defaults.SEPARATORS.get(separator, [""])[0]
         self.symbols = config.get("symbols", {})
         self.segments = list()
