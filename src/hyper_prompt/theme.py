@@ -21,3 +21,4 @@ class BasicTheme(object):
             return self.FG
         if key.endswith("BG"):
             return self.BG
+        return None

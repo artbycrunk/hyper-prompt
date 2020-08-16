@@ -2,15 +2,18 @@ import pytest
 
 import hyper_prompt.helpers as helpers
 
-conf = helpers.ensure_dict("test")
-
-
 @pytest.mark.parametrize(
-    "test, result",
-    [("type", "test"), ("module", "hyper_prompt.segments.test")],
+    "test, key, result",
+    [
+        ("test", "type", "test"),
+        ("test", "module", "hyper_prompt.segments.test"),
+        ({"type": 'test', "name": 'test'}, "module", "hyper_prompt.segments.test"),
+        ({"module":"test"}, "module", "test")
+    ],
 )
-def test_ensure_dict(test, result):
-    assert conf.get(test) == result
+def test_ensure_dict(test, key, result):
+    conf = helpers.ensure_dict(test)
+    assert conf.get(key) == result
 
 
 def test_import_exception(importer):

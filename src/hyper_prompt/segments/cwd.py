@@ -44,6 +44,8 @@ class Segment(BasicSegment):
             )
             segment.append(self.hyper_prompt._content % (symbol), fg, bg)
             self.sub_segments.append(segment)
+            return segment
+        return None
 
     def activate(self):
         cwd = self.replace_home_dir(self.hyper_prompt.cwd)

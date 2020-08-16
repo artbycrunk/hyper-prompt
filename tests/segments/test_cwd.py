@@ -4,6 +4,7 @@ import pytest
 
 import hyper_prompt.defaults as defaults
 from hyper_prompt.segments.cwd import Segment
+from stat import S_IREAD, S_IRGRP, S_IROTH, S_IWUSR
 
 ELLIPSIS = Segment.symbols.get("ellipsis", "\u2026")
 
@@ -65,9 +66,22 @@ def test_cwd_maxsize(segment, current_cwd, result, max_dir_size):
 
 def test_cwd_readonly(segment):
     segment.hyper_prompt.cwd = "/var/tmp/hyper_prompt"
+    if not os.path.exists(segment.hyper_prompt.cwd):
+        os.makedirs(segment.hyper_prompt.cwd)
     segment.seg_conf["show_readonly"] = True
     segment.setattrs()
+
+    # Make readonly and test
+    os.chmod(segment.hyper_prompt.cwd, S_IREAD | S_IRGRP | S_IROTH)
     segment.activate()
+    lock_segment = segment.add_lock_sub_segment()
+    assert lock_segment is not None
+
+    # Make writeable and test again
+    os.chmod(segment.hyper_prompt.cwd, S_IWUSR | S_IREAD)
+    segment.activate()
+    lock_segment = segment.add_lock_sub_segment()
+    assert lock_segment is None
     assert segment.content == defaults.CONTENT % "/var/tmp/hyper_prompt"
 
 

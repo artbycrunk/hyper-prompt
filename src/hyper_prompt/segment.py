@@ -36,19 +36,23 @@ class BasicSegment(threading.Thread):
     def getenv(self, key):
         return os.getenv(key)
 
+    def color_mode(self, code):
+        mode = "5"
+        if isinstance(code, (tuple, list)):
+            code = ";".join([str(x) for x in code])
+            mode = "2"  # rgb color
+        return mode, code
+
     def color(self, prefix, code):
         if code is None:
             return ""
-        elif code == self.theme.RESET:
+        if code == self.theme.RESET:
             return self.hyper_prompt.reset
-        else:
-            mode = "5"
-            if isinstance(code, (tuple, list)):
-                code = ";".join([str(x) for x in code])
-                mode = "2"  # rgb color
-            return self.hyper_prompt.color_ % (
-                "[%s;%s;%sm" % (prefix, mode, code)
-            )
+
+        mode, code = self.color_mode(code)
+        return self.hyper_prompt.color_ % (
+            "[%s;%s;%sm" % (prefix, mode, code)
+        )
 
     def fgcolor(self, code):
         return self.color("38", code)
@@ -66,7 +70,7 @@ class BasicSegment(threading.Thread):
     def symbol(self, name, symbol_map=None):
         has_symbol = ""
         show_symbols = self.seg_conf.get("show_symbols", None)
-        if show_symbols == False:
+        if show_symbols is False:
             return "%s " % has_symbol
 
         if show_symbols or self.hyper_prompt.show_symbols:

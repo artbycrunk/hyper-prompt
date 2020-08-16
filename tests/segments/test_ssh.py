@@ -1,7 +1,10 @@
 import os
+
 import pytest
 
+import hyper_prompt.defaults as defaults
 from hyper_prompt.segments.ssh import Segment
+
 
 @pytest.fixture(name="segment")
 def fixture_segment(prompt):
@@ -11,12 +14,25 @@ def fixture_segment(prompt):
 def test_symbol(segment):
     assert segment.symbol("network") == "%s " % segment.SYMBOL
 
-
-def test_ssh(segment):
+@pytest.mark.parametrize(
+    "test, result",
+    [
+        ("1", "SSH"),
+        (None, None),
+    ],
+)
+def test_ssh(segment, test, result):
     ssh_client = os.getenv("SSH_CLIENT")
-    if not ssh_client:
-        os.environ["SSH_CLIENT"] = "1"
-    segment.activate()
-    if not ssh_client:
+    if ssh_client:
         del os.environ["SSH_CLIENT"]
-    assert segment.content.endswith(" SSH ")
+    if test:
+        os.environ["SSH_CLIENT"] = test
+    segment.activate()
+    if ssh_client:
+        os.environ["SSH_CLIENT"] = ssh_client
+
+    if not result:
+        assert segment.content is result
+    else:
+        content = segment.symbol("network") + result
+        assert segment.content == defaults.CONTENT % content

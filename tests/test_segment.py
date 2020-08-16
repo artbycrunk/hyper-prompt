@@ -44,16 +44,41 @@ def test_activate(segment):
         ("48", "35"),
         ("38", None),
         ("48", 'RESET'),
+        ("48", (165, 190, 64))
     ],
 )
 def test_color(segment, prefix, code):
     if not code:
         assert segment.color(prefix, code) == ''
 
-    elif code == "RESET":
-        assert (segment.color(prefix, segment.theme.RESET) ==
-        (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[0m")))
+    shell_config = defaults.SHELLS[segment.hyper_prompt.shell]
+    if code == "RESET":
+        assert (segment.color(prefix, segment.theme.RESET) == shell_config.get("color") % ("[0m"))
 
-    else:
+    if code and code != "RESET":
+        mode, code_result = segment.color_mode(code)
         assert (segment.color(prefix, code) ==
-                (defaults.SHELLS[segment.hyper_prompt.shell].get("color") % ("[%s;5;%sm" % (prefix, code))))
+                (shell_config.get("color") % ("[%s;%s;%sm" % (prefix, mode, code_result))))
+
+
+def test_separator(segment):
+    assert segment.separator == segment.hyper_prompt.separator
+
+    for key, _ in defaults.SEPARATORS.items():
+        segment.seg_conf = {"separator": key}
+        assert segment.separator == defaults.SEPARATORS.get(key, [""])[0]
+
+
+def test_symbol(segment):
+    assert segment.symbol("test") == ""
+
+    segment.seg_conf = {"show_symbols": False}
+    assert segment.symbol("test") == " "
+
+    segment.seg_conf = {"show_symbols": True}
+    segment.hyper_prompt.symbols = {"cwd": "\uf07c"}
+    assert segment.symbol("cwd") == "%s " % segment.hyper_prompt.symbols.get("cwd")
+
+
+def test_append(segment):
+    pass
